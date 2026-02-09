@@ -248,7 +248,7 @@ export default function HomePage() {
       </header>
 
       <main className="relative z-10 pt-36 sm:pt-40 pb-20">
-        <section className="max-w-5xl mx-auto px-4 sm:px-6 text-center mb-24 sm:mb-28">
+        <section className="section-tone section-tone-strong max-w-5xl mx-auto px-4 sm:px-6 text-center mb-24 sm:mb-28">
           <div className="reveal inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel mb-10">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -257,13 +257,15 @@ export default function HomePage() {
             <span className="text-[11px] sm:text-xs text-slate-200 font-medium">Cohorte Febrero 2026 - Cupos limitados</span>
           </div>
 
-          <h1 className="reveal delay-1 text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6 font-semibold">
+          <h1 className="reveal delay-1 text-4xl sm:text-6xl lg:text-7xl tracking-[-0.02em] leading-[1.03] mb-6 font-semibold max-w-4xl mx-auto">
             Despues de los 30,
             <br />
-            <span className="text-gradient">no es el peso. Es la salud muscular.</span>
+            no es el peso.
+            <br />
+            <span className="hero-violet">Es la salud muscular.</span>
           </h1>
 
-          <p className="reveal delay-2 text-base sm:text-lg text-slate-300 max-w-3xl mx-auto mb-10 leading-relaxed">
+          <p className="reveal delay-2 hero-subcopy text-base sm:text-lg max-w-3xl mx-auto mb-10 leading-relaxed">
             La salud muscular es el motor de tu energia, tu metabolismo y como envejece tu cuerpo. HYBRID es el
             sistema donde IA, coach humano y tu construyen esa base juntos en Seasons de 12 semanas con progreso
             medible.
@@ -293,45 +295,49 @@ export default function HomePage() {
           </div>
 
           <div className="reveal delay-3 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto text-left">
-            <div className="glass-panel rounded-xl p-4">
+            <div className="glass-panel kpi-card rounded-xl p-4">
               <p className="text-2xl font-semibold font-space">91%</p>
-              <p className="text-xs text-slate-400">Adherencia semanal</p>
+              <p className="text-xs text-slate-300">Adherencia semanal</p>
             </div>
-            <div className="glass-panel rounded-xl p-4">
+            <div className="glass-panel kpi-card rounded-xl p-4">
               <p className="text-2xl font-semibold font-space">12+</p>
-              <p className="text-xs text-slate-400">Semanas ganadoras promedio</p>
+              <p className="text-xs text-slate-300">Semanas ganadoras promedio</p>
             </div>
-            <div className="glass-panel rounded-xl p-4">
+            <div className="glass-panel kpi-card rounded-xl p-4">
               <p className="text-2xl font-semibold font-space">Semana 2</p>
-              <p className="text-xs text-slate-400">Progreso medible visible</p>
+              <p className="text-xs text-slate-300">Progreso medible visible</p>
             </div>
           </div>
+
+          <p className="reveal delay-3 season-caption font-space max-w-4xl mx-auto mt-6">
+            Season de 12 semanas · checkpoints en semana 1, 4, 8 y 12.
+          </p>
         </section>
 
-        <section className="max-w-5xl mx-auto px-4 sm:px-6 mb-24">
+        <section className="section-tone section-tone-soft max-w-5xl mx-auto px-4 sm:px-6 mb-24">
           <div className="glass-panel rounded-2xl p-8 sm:p-10 text-center reveal">
             <p className="text-xs uppercase tracking-[0.24em] text-slate-400 mb-3">Diagnostico rapido</p>
             <h2 className="text-3xl sm:text-4xl font-semibold mb-8">3 senales silenciosas de que algo no esta funcionando</h2>
 
             <div className="grid md:grid-cols-3 gap-4 text-left mb-8">
-              <article className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
-                <p className="text-sm text-slate-400 mb-2">01</p>
+              <article className="card-insight rounded-xl border border-white/10 bg-white/[0.02] p-5">
+                <p className="text-sm text-slate-300 mb-2">01</p>
                 <h3 className="font-space text-lg font-semibold mb-2">Energia baja que ya normalizaste</h3>
-                <p className="text-sm text-slate-300 leading-relaxed">
+                <p className="text-sm text-slate-200 leading-relaxed">
                   Cafe para arrancar, crash a media tarde. Funcionar al 60% se volvio normal, pero no tiene por que serlo.
                 </p>
               </article>
-              <article className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
-                <p className="text-sm text-slate-400 mb-2">02</p>
+              <article className="card-insight rounded-xl border border-white/10 bg-white/[0.02] p-5">
+                <p className="text-sm text-slate-300 mb-2">02</p>
                 <h3 className="font-space text-lg font-semibold mb-2">Rigidez o dolor sin razon</h3>
-                <p className="text-sm text-slate-300 leading-relaxed">
+                <p className="text-sm text-slate-200 leading-relaxed">
                   Hombro, espalda o rodilla. No es la edad, es una senal de que el sistema no esta construyendo base muscular correcta.
                 </p>
               </article>
-              <article className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
-                <p className="text-sm text-slate-400 mb-2">03</p>
+              <article className="card-insight rounded-xl border border-white/10 bg-white/[0.02] p-5">
+                <p className="text-sm text-slate-300 mb-2">03</p>
                 <h3 className="font-space text-lg font-semibold mb-2">Empiezas fuerte y se cae en 2-3 semanas</h3>
-                <p className="text-sm text-slate-300 leading-relaxed">
+                <p className="text-sm text-slate-200 leading-relaxed">
                   No es falta de ganas. Es un plan que solo funciona en una vida perfecta, no en tu vida real.
                 </p>
               </article>
@@ -341,89 +347,120 @@ export default function HomePage() {
               Tu plan esta disenado para tu vida real o para una vida perfecta. Si solo funciona cuando todo esta en
               orden, no es un plan.
             </p>
+
+            <div className="mt-8 grid sm:grid-cols-2 gap-4 text-left reveal">
+              <article className="support-media">
+                <Image
+                  src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?auto=format&fit=crop&w=1200&q=80"
+                  alt="Entrenamiento con enfoque de fuerza funcional"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-cover"
+                />
+                <div className="support-media-overlay" />
+                <div className="support-media-copy">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Enfoque fitness</p>
+                  <p className="text-sm text-white font-medium">Fuerza funcional con progresion sostenible</p>
+                </div>
+              </article>
+              <article className="support-media">
+                <Image
+                  src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80"
+                  alt="Recuperacion y consistencia en entrenamiento"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-cover"
+                />
+                <div className="support-media-overlay" />
+                <div className="support-media-copy">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Vida real</p>
+                  <p className="text-sm text-white font-medium">Recuperacion estrategica para no romper el habito</p>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 
-        <section id="secretos" className="section-anchor max-w-7xl mx-auto px-4 sm:px-6 mb-24">
+        <section id="secretos" className="section-anchor section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="text-center mb-10 reveal">
             <p className="text-xs uppercase tracking-[0.24em] text-slate-400 mb-2">Cambio de creencias</p>
             <h2 className="text-3xl sm:text-4xl font-semibold">Lo que nadie te esta diciendo</h2>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-5">
-            <article className="reveal glass-panel rounded-2xl p-7 border border-white/10">
+            <article className="reveal glass-panel card-insight rounded-2xl p-7 border border-white/10">
               <div className="w-11 h-11 rounded-xl bg-[#6D00FF]/18 flex items-center justify-center mb-5">
                 <Activity className="w-5 h-5 text-[#c6b2ff]" />
               </div>
               <h3 className="font-space text-2xl font-semibold mb-3">El musculo no es estetica. Es tu motor.</h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-4">
+              <p className="text-slate-200 text-sm leading-relaxed mb-4">
                 El peso suele ser el sintoma. La salud muscular suele ser la causa que nadie atiende. No es bajar por
                 bajar, es construir capacidad para que todo lo demas mejore.
               </p>
-              <p className="text-xs text-slate-400">Rompe: necesito bajar de peso para estar bien</p>
+              <p className="text-xs text-slate-300">Rompe: necesito bajar de peso para estar bien</p>
               <p className="text-xs text-[#d7cbff] mt-1">Nueva creencia: necesito construir salud muscular</p>
             </article>
 
-            <article className="reveal delay-1 glass-panel rounded-2xl p-7 border border-white/10">
+            <article className="reveal delay-1 glass-panel card-insight rounded-2xl p-7 border border-white/10">
               <div className="w-11 h-11 rounded-xl bg-[#6D00FF]/18 flex items-center justify-center mb-5">
                 <Route className="w-5 h-5 text-[#c6b2ff]" />
               </div>
               <h3 className="font-space text-2xl font-semibold mb-3">No fallas por falta de ganas.</h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-4">
+              <p className="text-slate-200 text-sm leading-relaxed mb-4">
                 Fallas por entrenar en modo azar. La salida real combina dosis minima efectiva, progresion medible y
                 recuperacion estrategica.
               </p>
-              <p className="text-xs text-slate-400">Rompe: me falta disciplina</p>
+              <p className="text-xs text-slate-300">Rompe: me falta disciplina</p>
               <p className="text-xs text-[#d7cbff] mt-1">Nueva creencia: me falta sistema</p>
             </article>
 
-            <article className="reveal delay-2 glass-panel rounded-2xl p-7 border border-white/10">
+            <article className="reveal delay-2 glass-panel card-insight rounded-2xl p-7 border border-white/10">
               <div className="w-11 h-11 rounded-xl bg-[#6D00FF]/18 flex items-center justify-center mb-5">
                 <RefreshCw className="w-5 h-5 text-[#c6b2ff]" />
               </div>
               <h3 className="font-space text-2xl font-semibold mb-3">La consistencia no se exige. Se disena.</h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-4">
+              <p className="text-slate-200 text-sm leading-relaxed mb-4">
                 Tu vida cambia, el sistema tambien. HYBRID ajusta temprano para proteger el habito y acumular semanas
                 ganadoras sin depender de motivacion perfecta.
               </p>
-              <p className="text-xs text-slate-400">Rompe: necesito mas motivacion</p>
+              <p className="text-xs text-slate-300">Rompe: necesito mas motivacion</p>
               <p className="text-xs text-[#d7cbff] mt-1">Nueva creencia: necesito un sistema adaptable</p>
             </article>
           </div>
         </section>
 
-        <section id="que-es" className="section-anchor max-w-7xl mx-auto px-4 sm:px-6 mb-24">
+        <section id="que-es" className="section-anchor section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="grid lg:grid-cols-2 gap-6 items-stretch">
-            <article className="reveal glass-panel rounded-2xl p-8 sm:p-10">
-              <p className="text-xs uppercase tracking-[0.22em] text-slate-400 mb-3">Nueva oportunidad</p>
+            <article className="reveal glass-panel card-mechanism rounded-2xl p-8 sm:p-10">
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-3">Nueva oportunidad</p>
               <h2 className="text-3xl sm:text-4xl font-semibold mb-4">HYBRID: IA + Coach + Tu. Trabajando juntos.</h2>
-              <p className="text-slate-300 leading-relaxed mb-5">
+              <p className="text-slate-200 leading-relaxed mb-5">
                 HYBRID no es una app con rutinas ni un PDF semanal. Es un sistema donde la IA analiza contexto, el coach
                 humano valida criterio y tu ejecutas con feedback minimo.
               </p>
-              <p className="text-slate-300 leading-relaxed mb-5">
+              <p className="text-slate-200 leading-relaxed mb-5">
                 Resultado: progresas con control de calidad, sin adivinar, y aprendes a tomar mejores decisiones sobre tu salud.
               </p>
 
-              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
-                <p className="text-xs uppercase tracking-[0.16em] text-slate-400 mb-3">Mini demo contextual</p>
-                <p className="text-sm text-slate-300 leading-relaxed">
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5 text-shield">
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-300 mb-3">Mini demo contextual</p>
+                <p className="text-sm text-slate-200 leading-relaxed">
                   Persona de 37 anos, 3 dias por semana, 45 min por sesion, sueno de 6 horas y estres alto. HYBRID disena
                   una Season de 12 semanas, entrega semana 1 lista y ajusta dosis cuando la vida cambia.
                 </p>
               </div>
             </article>
 
-            <article id="video" className="reveal delay-1 glass-panel rounded-2xl p-5 sm:p-6 flex flex-col">
-              <div className="relative rounded-xl overflow-hidden border border-white/10 bg-black/30 min-h-[260px] sm:min-h-[320px] flex items-center justify-center">
+            <article id="video" className="reveal delay-1 glass-panel card-mechanism rounded-2xl p-5 sm:p-6 flex flex-col">
+              <div className="brand-photo-frame relative rounded-xl overflow-hidden border border-white/10 bg-black/30 min-h-[260px] sm:min-h-[320px] flex items-center justify-center">
                 <Image
-                  src="https://images.unsplash.com/photo-1618477247222-acbdb0e159b3?auto=format&fit=crop&w=1600&q=80"
-                  alt="Preview del video HYBRID"
+                  src="/images/brand/genesis-duo.png"
+                  alt="Fundador con Genesis, sistema HYBRID"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="absolute inset-0 object-cover opacity-50"
+                  className="absolute inset-0 object-cover opacity-60 object-[58%_center] sm:object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20" />
+                <div className="brand-photo-overlay absolute inset-0" />
                 <a
                   href={VSL_URL}
                   className="relative btn-metallic rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2"
@@ -436,7 +473,7 @@ export default function HomePage() {
                 </a>
               </div>
               <div className="mt-4 flex items-center justify-between gap-4">
-                <p className="text-xs text-slate-300">Video principal: argumento completo, mecanismo y oferta.</p>
+                <p className="text-xs text-slate-200">Video principal: argumento completo, mecanismo y oferta.</p>
                 <span className="text-[11px] rounded-full border border-emerald-400/30 bg-emerald-400/10 text-emerald-300 px-2 py-1">
                   Listo para embed real
                 </span>
@@ -445,9 +482,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="como-funciona" className="section-anchor max-w-6xl mx-auto px-4 sm:px-6 mb-24">
+        <section id="como-funciona" className="section-anchor section-tone section-tone-soft max-w-6xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal text-center mb-10">
-            <p className="text-xs uppercase tracking-[0.22em] text-slate-400 mb-2">Proceso</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">Proceso</p>
             <h2 className="text-3xl sm:text-4xl font-semibold">3 pasos. 12 semanas. Progreso real.</h2>
           </div>
 
@@ -469,22 +506,53 @@ export default function HomePage() {
                 text: "Revisiones por fase con metricas reales: fuerza, medidas, energia y adherencia. Menos drama, mas progreso medible.",
               },
             ].map((step, idx) => (
-              <article key={step.n} className={`reveal glass-panel rounded-2xl p-6 sm:p-7 ${idx === 1 ? "delay-1" : ""} ${idx === 2 ? "delay-2" : ""}`}>
+              <article key={step.n} className={`reveal glass-panel card-mechanism rounded-2xl p-6 sm:p-7 ${idx === 1 ? "delay-1" : ""} ${idx === 2 ? "delay-2" : ""}`}>
                 <div className="w-11 h-11 rounded-full bg-[#6D00FF]/20 border border-[#6D00FF]/40 flex items-center justify-center mb-5 text-[#d5c8ff] font-space font-semibold">
                   {step.n}
                 </div>
                 <h3 className="font-space text-xl font-semibold mb-3">{step.title}</h3>
-                <p className="text-sm text-slate-300 leading-relaxed">{step.text}</p>
+                <p className="text-sm text-slate-200 leading-relaxed">{step.text}</p>
               </article>
             ))}
           </div>
+
+          <div className="reveal mt-6 grid sm:grid-cols-2 gap-4">
+            <article className="support-media brand-photo-frame min-h-[210px]">
+              <Image
+                src="/images/brand/genesis-solo.png"
+                alt="Genesis analizando progreso adaptativo"
+                fill
+                sizes="(max-width: 768px) 100vw, 42vw"
+                className="object-cover object-[60%_center] sm:object-center"
+              />
+              <div className="support-media-overlay brand-photo-overlay" />
+              <div className="support-media-copy">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-100 mb-1">Sistema adaptativo</p>
+                <p className="text-sm text-white font-medium">Inteligencia contextual para ajustar tu dosis semanal</p>
+              </div>
+            </article>
+            <article className="support-media min-h-[210px]">
+              <Image
+                src="https://images.unsplash.com/photo-1549570652-97324981a6fd?auto=format&fit=crop&w=1200&q=80"
+                alt="Entrenamiento personalizado con enfoque de rendimiento"
+                fill
+                sizes="(max-width: 768px) 100vw, 42vw"
+                className="object-cover"
+              />
+              <div className="support-media-overlay" />
+              <div className="support-media-copy">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Adaptacion</p>
+                <p className="text-sm text-white font-medium">Plan vivo que responde a tu energia real</p>
+              </div>
+            </article>
+          </div>
         </section>
 
-        <section id="oferta" className="section-anchor max-w-5xl mx-auto px-4 sm:px-6 mb-20">
-          <article className="reveal glass-panel rounded-2xl p-7 sm:p-10 border border-[#6D00FF]/35 shadow-[0_0_70px_-30px_rgba(109,0,255,0.7)]">
+        <section id="oferta" className="section-anchor section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-20">
+          <article className="reveal glass-panel card-offer rounded-2xl p-7 sm:p-10 border border-[#6D00FF]/35 shadow-[0_0_70px_-30px_rgba(109,0,255,0.7)]">
             <p className="text-xs uppercase tracking-[0.22em] text-[#cab7ff] mb-2">Grand slam offer</p>
             <h2 className="text-3xl sm:text-4xl font-semibold mb-2">Tu Season de 12 semanas incluye</h2>
-            <p className="text-slate-300 mb-8">Mas valor real, no descuentos vacios.</p>
+            <p className="text-slate-200 mb-8">Mas valor real, no descuentos vacios.</p>
 
             <div className="rounded-xl border border-white/10 bg-black/20 overflow-hidden mb-6">
               {[
@@ -497,7 +565,7 @@ export default function HomePage() {
               ].map(([label, value], idx) => (
                 <div key={label} className={`grid grid-cols-12 gap-3 px-4 py-4 text-sm ${idx < 5 ? "value-row" : ""}`}>
                   <p className="col-span-7 text-slate-100">{label}</p>
-                  <p className={`col-span-5 text-right ${value === "Incluido" ? "text-emerald-300" : "text-slate-400"}`}>{value}</p>
+                  <p className={`col-span-5 text-right ${value === "Incluido" ? "text-emerald-300" : "text-slate-300"}`}>{value}</p>
                 </div>
               ))}
             </div>
@@ -506,9 +574,9 @@ export default function HomePage() {
 
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
-                <p className="text-sm text-slate-400">Valor total de referencia</p>
+                <p className="text-sm text-slate-300">Valor total de referencia</p>
                 <p className="font-space text-3xl font-semibold">$4,400+</p>
-                <p className="text-sm text-slate-300 mt-2">
+                <p className="text-sm text-slate-200 mt-2">
                   Inversion real: <span className="text-white font-semibold">$199-$499 / mes</span> segun nivel de soporte.
                 </p>
               </div>
@@ -525,8 +593,8 @@ export default function HomePage() {
           </article>
         </section>
 
-        <section id="garantia" className="section-anchor max-w-5xl mx-auto px-4 sm:px-6 mb-10">
-          <article className="reveal glass-panel rounded-2xl p-7 sm:p-8 border border-emerald-400/25">
+        <section id="garantia" className="section-anchor section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-10">
+          <article className="reveal glass-panel card-offer rounded-2xl p-7 sm:p-8 border border-emerald-400/25">
             <div className="flex items-start gap-4">
               <div className="w-11 h-11 rounded-xl bg-emerald-400/12 border border-emerald-300/25 flex items-center justify-center flex-shrink-0">
                 <ShieldCheck className="w-5 h-5 text-emerald-300" />
@@ -544,29 +612,29 @@ export default function HomePage() {
           </article>
         </section>
 
-        <section className="max-w-5xl mx-auto px-4 sm:px-6 mb-24">
+        <section className="section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal rounded-xl border border-[#6D00FF]/25 bg-[#6D00FF]/10 px-5 py-4 text-sm text-[#e2d8ff]">
             HYBRID es limitado por capacidad de coaches y control de calidad. Abrimos cupos por cohorte. Cuando se llenan,
             cerramos.
           </div>
         </section>
 
-        <section id="agente" className="section-anchor max-w-6xl mx-auto px-4 sm:px-6 mb-24">
+        <section id="agente" className="section-anchor section-tone section-tone-soft max-w-6xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal grid lg:grid-cols-[1.1fr_0.9fr] gap-6 items-stretch">
-            <article className="glass-panel rounded-2xl p-7 sm:p-8">
-              <p className="text-xs uppercase tracking-[0.22em] text-slate-400 mb-2">Canal conversacional</p>
+            <article className="glass-panel card-mechanism rounded-2xl p-7 sm:p-8">
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">Canal conversacional</p>
               <h2 className="text-3xl font-semibold mb-3">Habla con un agente IA de NGX</h2>
-              <p className="text-slate-300 leading-relaxed mb-5">
+              <p className="text-slate-200 leading-relaxed mb-5">
                 Si quieres resolver dudas antes de aplicar, aqui conectaremos un agente conversacional con ElevenLabs. Te
                 explicara el proceso, si eres fit para HYBRID y cual es el siguiente paso.
               </p>
               <div className="grid sm:grid-cols-2 gap-3 mb-5">
                 <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-xs text-slate-400 mb-1">Objetivo</p>
+                  <p className="text-xs text-slate-300 mb-1">Objetivo</p>
                   <p className="text-sm text-slate-200">Reducir friccion antes de aplicar</p>
                 </div>
                 <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-xs text-slate-400 mb-1">Integracion</p>
+                  <p className="text-xs text-slate-300 mb-1">Integracion</p>
                   <p className="text-sm text-slate-200">SDK + widget embed de ElevenLabs</p>
                 </div>
               </div>
@@ -593,7 +661,7 @@ export default function HomePage() {
               </div>
             </article>
 
-            <article className="glass-panel rounded-2xl p-4 sm:p-5 relative overflow-hidden">
+            <article className="glass-panel card-mechanism rounded-2xl p-4 sm:p-5 relative overflow-hidden">
               <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-[#6D00FF]/20 blur-2xl" />
               <div className="relative rounded-xl border border-white/10 bg-black/25 p-4 h-full min-h-[280px]">
                 <div className="flex items-center justify-between mb-3">
@@ -616,13 +684,13 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="preguntas" className="section-anchor max-w-4xl mx-auto px-4 sm:px-6 mb-24">
+        <section id="preguntas" className="section-anchor section-tone section-tone-soft max-w-4xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal text-center mb-8">
-            <p className="text-xs uppercase tracking-[0.22em] text-slate-400 mb-2">Objeciones</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">Objeciones</p>
             <h2 className="text-3xl sm:text-4xl font-semibold">Preguntas frecuentes</h2>
           </div>
 
-          <div className="reveal glass-panel rounded-2xl px-5 sm:px-7 py-2">
+          <div className="reveal glass-panel card-mechanism rounded-2xl px-5 sm:px-7 py-2">
             {faqList.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
@@ -637,10 +705,10 @@ export default function HomePage() {
                     }}
                   >
                     <span className="text-base sm:text-lg">{faq.q}</span>
-                    <Plus className="faq-icon w-5 h-5 text-slate-400" />
+                    <Plus className="faq-icon w-5 h-5 text-slate-300" />
                   </button>
                   <div className="faq-answer">
-                    <p className="pt-3 text-sm text-slate-300">{faq.a}</p>
+                    <p className="pt-3 text-sm text-slate-200">{faq.a}</p>
                   </div>
                 </div>
               );
@@ -648,11 +716,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="max-w-5xl mx-auto px-4 sm:px-6 mb-12">
-          <article className="reveal glass-panel rounded-2xl p-8 sm:p-10 text-center">
+        <section className="section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-12">
+          <article className="reveal glass-panel card-offer rounded-2xl p-8 sm:p-10 text-center">
             <h2 className="text-3xl sm:text-5xl font-semibold mb-3">No necesitas mas motivacion.</h2>
-            <p className="text-xl text-slate-300 mb-3">Necesitas un sistema que te haga avanzar con tu vida real.</p>
-            <p className="text-slate-400 max-w-3xl mx-auto mb-8">
+            <p className="text-xl text-slate-200 mb-3">Necesitas un sistema que te haga avanzar con tu vida real.</p>
+            <p className="text-slate-300 max-w-3xl mx-auto mb-8">
               Si quieres construir salud muscular de forma medible en las proximas 12 semanas, aplica y lo armamos contigo.
             </p>
 
