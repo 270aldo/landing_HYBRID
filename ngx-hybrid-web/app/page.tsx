@@ -4,7 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import {
   Activity,
+  Check,
   Hexagon,
+  Loader,
   Menu,
   MessageCircle,
   Play,
@@ -62,6 +64,21 @@ const faqList = [
     q: "Como se mide el progreso?",
     a: "Con fuerza, medidas, energia y adherencia. Importa progreso medible, no promesas vacias.",
     event: "faq_open_progress",
+  },
+  {
+    q: "Necesito un gym completo?",
+    a: "No necesariamente. El sistema se adapta a tu contexto: gym, home gym o mixto. Lo importante es el estimulo correcto, no el lugar.",
+    event: "faq_open_gym",
+  },
+  {
+    q: "Que tan estricto es?",
+    a: "Es serio, pero no rigido. Buscamos consistencia sostenible (80%), no perfeccion (100%). El sistema esta disenado para adaptarse a la vida real.",
+    event: "faq_open_strict",
+  },
+  {
+    q: "Que pasa si no soy fit para HYBRID?",
+    a: "Te lo diremos con total transparencia. Si no es el momento o el programa adecuado, te orientaremos hacia el mejor siguiente paso para ti, que podria ser nuestro programa ASCEND o recursos educativos.",
+    event: "faq_open_not_fit",
   },
 ];
 
@@ -351,7 +368,7 @@ export default function HomePage() {
             <div className="mt-8 grid sm:grid-cols-2 gap-4 text-left reveal">
               <article className="support-media">
                 <Image
-                  src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?auto=format&fit=crop&w=1200&q=80"
+                  src="https://placehold.co/1200x800/111827/FFFFFF?text=Entrenamiento+de+fuerza+funcional"
                   alt="Entrenamiento con enfoque de fuerza funcional"
                   fill
                   sizes="(max-width: 768px) 100vw, 40vw"
@@ -365,7 +382,7 @@ export default function HomePage() {
               </article>
               <article className="support-media">
                 <Image
-                  src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80"
+                  src="https://placehold.co/1200x800/0f172a/FFFFFF?text=Recuperacion+estrategica+para+vida+real"
                   alt="Recuperacion y consistencia en entrenamiento"
                   fill
                   sizes="(max-width: 768px) 100vw, 40vw"
@@ -397,8 +414,10 @@ export default function HomePage() {
                 El peso suele ser el sintoma. La salud muscular suele ser la causa que nadie atiende. No es bajar por
                 bajar, es construir capacidad para que todo lo demas mejore.
               </p>
-              <p className="text-xs text-slate-300">Rompe: necesito bajar de peso para estar bien</p>
-              <p className="text-xs text-[#d7cbff] mt-1">Nueva creencia: necesito construir salud muscular</p>
+              <hr className="border-white/10 my-4" />
+              <p className="text-sm text-emerald-200 font-medium leading-relaxed">
+                Construir musculo mejora energia, metabolismo y longevidad. El cambio estetico llega como consecuencia.
+              </p>
             </article>
 
             <article className="reveal delay-1 glass-panel card-insight rounded-2xl p-7 border border-white/10">
@@ -407,11 +426,13 @@ export default function HomePage() {
               </div>
               <h3 className="font-space text-2xl font-semibold mb-3">No fallas por falta de ganas.</h3>
               <p className="text-slate-200 text-sm leading-relaxed mb-4">
-                Fallas por entrenar en modo azar. La salida real combina dosis minima efectiva, progresion medible y
-                recuperacion estrategica.
+                No te falta ganas; te falta claridad. Cuando cada semana tiene objetivo, progreso visible y ajustes
+                puntuales, dejas de empezar de cero.
               </p>
-              <p className="text-xs text-slate-300">Rompe: me falta disciplina</p>
-              <p className="text-xs text-[#d7cbff] mt-1">Nueva creencia: me falta sistema</p>
+              <hr className="border-white/10 my-4" />
+              <p className="text-sm text-emerald-200 font-medium leading-relaxed">
+                Con un sistema claro, la consistencia deja de depender de motivacion y empieza a depender de proceso.
+              </p>
             </article>
 
             <article className="reveal delay-2 glass-panel card-insight rounded-2xl p-7 border border-white/10">
@@ -420,11 +441,13 @@ export default function HomePage() {
               </div>
               <h3 className="font-space text-2xl font-semibold mb-3">La consistencia no se exige. Se disena.</h3>
               <p className="text-slate-200 text-sm leading-relaxed mb-4">
-                Tu vida cambia, el sistema tambien. HYBRID ajusta temprano para proteger el habito y acumular semanas
-                ganadoras sin depender de motivacion perfecta.
+                Tu vida cambia y el plan tambien. HYBRID ajusta carga y enfoque para que no pierdas ritmo cuando hay
+                viajes, estres o semanas caoticas.
               </p>
-              <p className="text-xs text-slate-300">Rompe: necesito mas motivacion</p>
-              <p className="text-xs text-[#d7cbff] mt-1">Nueva creencia: necesito un sistema adaptable</p>
+              <hr className="border-white/10 my-4" />
+              <p className="text-sm text-emerald-200 font-medium leading-relaxed">
+                El progreso real no exige semanas perfectas: exige un plan que se adapte rapido a tu vida real.
+              </p>
             </article>
           </div>
         </section>
@@ -442,28 +465,25 @@ export default function HomePage() {
                 Resultado: progresas con control de calidad, sin adivinar, y aprendes a tomar mejores decisiones sobre tu salud.
               </p>
 
-              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5 text-shield">
+              <div className="bg-black/30 p-4 rounded-lg border border-white/10 font-mono text-sm text-shield">
                 <p className="text-xs uppercase tracking-[0.16em] text-slate-300 mb-3">Mini demo contextual</p>
-                <p className="text-sm text-slate-200 leading-relaxed">
-                  Persona de 37 anos, 3 dias por semana, 45 min por sesion, sueno de 6 horas y estres alto. HYBRID disena
-                  una Season de 12 semanas, entrega semana 1 lista y ajusta dosis cuando la vida cambia.
-                </p>
+                <pre>
+                  <code className="text-sm text-slate-200 leading-relaxed whitespace-pre-wrap">
+                    Persona de 37 anos, 3 dias por semana, 45 min por sesion, sueno de 6 horas y estres alto. HYBRID
+                    disena una Season de 12 semanas, entrega semana 1 lista y ajusta dosis cuando la vida cambia.
+                  </code>
+                </pre>
               </div>
             </article>
 
             <article id="video" className="reveal delay-1 glass-panel card-mechanism rounded-2xl p-5 sm:p-6 flex flex-col">
               <div className="brand-photo-frame relative rounded-xl overflow-hidden border border-white/10 bg-black/30 min-h-[260px] sm:min-h-[320px] flex items-center justify-center">
-                <Image
-                  src="/images/brand/genesis-duo.png"
-                  alt="Fundador con Genesis, sistema HYBRID"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="absolute inset-0 object-cover opacity-60 object-[58%_center] sm:object-center"
-                />
-                <div className="brand-photo-overlay absolute inset-0" />
+                <div className="absolute inset-0 w-full h-full bg-black/50 border border-dashed border-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-sm text-slate-300">[Thumbnail VSL 12 min]</span>
+                </div>
                 <a
                   href={VSL_URL}
-                  className="relative btn-metallic rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2"
+                  className="absolute btn-metallic rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2"
                   onClick={() => trackEvent("vsl_play", { section: "video", href: VSL_URL })}
                   target={VSL_URL.startsWith("http") ? "_blank" : undefined}
                   rel={VSL_URL.startsWith("http") ? "noopener noreferrer" : undefined}
@@ -533,7 +553,7 @@ export default function HomePage() {
             </article>
             <article className="support-media min-h-[210px]">
               <Image
-                src="https://images.unsplash.com/photo-1549570652-97324981a6fd?auto=format&fit=crop&w=1200&q=80"
+                src="https://placehold.co/1200x800/0b1220/FFFFFF?text=Plan+adaptativo+segun+tu+energia+real"
                 alt="Entrenamiento personalizado con enfoque de rendimiento"
                 fill
                 sizes="(max-width: 768px) 100vw, 42vw"
@@ -550,7 +570,6 @@ export default function HomePage() {
 
         <section id="oferta" className="section-anchor section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-20">
           <article className="reveal glass-panel card-offer rounded-2xl p-7 sm:p-10 border border-[#6D00FF]/35 shadow-[0_0_70px_-30px_rgba(109,0,255,0.7)]">
-            <p className="text-xs uppercase tracking-[0.22em] text-[#cab7ff] mb-2">Grand slam offer</p>
             <h2 className="text-3xl sm:text-4xl font-semibold mb-2">Tu Season de 12 semanas incluye</h2>
             <p className="text-slate-200 mb-8">Mas valor real, no descuentos vacios.</p>
 
@@ -564,7 +583,10 @@ export default function HomePage() {
                 ["Comunidad privada NGX", "Incluido"],
               ].map(([label, value], idx) => (
                 <div key={label} className={`grid grid-cols-12 gap-3 px-4 py-4 text-sm ${idx < 5 ? "value-row" : ""}`}>
-                  <p className="col-span-7 text-slate-100">{label}</p>
+                  <p className="col-span-7 text-slate-100 flex items-center">
+                    <Check className="w-4 h-4 text-emerald-300 inline-block mr-2" />
+                    <span>{label}</span>
+                  </p>
                   <p className={`col-span-5 text-right ${value === "Incluido" ? "text-emerald-300" : "text-slate-300"}`}>{value}</p>
                 </div>
               ))}
@@ -575,9 +597,9 @@ export default function HomePage() {
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
                 <p className="text-sm text-slate-300">Valor total de referencia</p>
-                <p className="font-space text-3xl font-semibold">$4,400+</p>
+                <p className="font-space text-3xl font-semibold line-through">$4,400+</p>
                 <p className="text-sm text-slate-200 mt-2">
-                  Inversion real: <span className="text-white font-semibold">$199-$499 / mes</span> segun nivel de soporte.
+                  Inversion real: <span className="text-white font-semibold text-2xl">$199-$499 / mes</span> segun nivel de soporte.
                 </p>
               </div>
               <a
@@ -600,6 +622,9 @@ export default function HomePage() {
                 <ShieldCheck className="w-5 h-5 text-emerald-300" />
               </div>
               <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-300 text-xs font-medium mb-3">
+                  Riesgo Cero. Progreso Garantizado.
+                </div>
                 <p className="text-xs uppercase tracking-[0.2em] text-emerald-300 mb-2">Garantia de progreso medible</p>
                 <h2 className="text-2xl sm:text-3xl font-semibold mb-3">30 dias. Riesgo invertido.</h2>
                 <p className="text-slate-200 leading-relaxed">
@@ -628,16 +653,6 @@ export default function HomePage() {
                 Si quieres resolver dudas antes de aplicar, aqui conectaremos un agente conversacional con ElevenLabs. Te
                 explicara el proceso, si eres fit para HYBRID y cual es el siguiente paso.
               </p>
-              <div className="grid sm:grid-cols-2 gap-3 mb-5">
-                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-xs text-slate-300 mb-1">Objetivo</p>
-                  <p className="text-sm text-slate-200">Reducir friccion antes de aplicar</p>
-                </div>
-                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-xs text-slate-300 mb-1">Integracion</p>
-                  <p className="text-sm text-slate-200">SDK + widget embed de ElevenLabs</p>
-                </div>
-              </div>
               <div className="flex flex-wrap gap-3">
                 <button
                   type="button"
@@ -674,9 +689,11 @@ export default function HomePage() {
                   id="elevenlabs-convai-container"
                   className="rounded-lg border border-dashed border-white/20 min-h-[220px] flex items-center justify-center text-center px-4"
                 >
-                  <div>
-                    <p className="text-sm text-slate-300 mb-2">Espacio para embed real de ElevenLabs</p>
-                    <p className="text-xs text-slate-500">Insertaremos aqui el componente oficial del agente conversacional.</p>
+                  <div className="flex flex-col items-center gap-3">
+                    <Loader className="w-5 h-5 text-emerald-300 animate-spin" />
+                    <p className="text-sm text-slate-300">
+                      Nuestro agente de IA esta cargando. Estara listo para conversar en un momento.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -686,7 +703,6 @@ export default function HomePage() {
 
         <section id="preguntas" className="section-anchor section-tone section-tone-soft max-w-4xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal text-center mb-8">
-            <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">Objeciones</p>
             <h2 className="text-3xl sm:text-4xl font-semibold">Preguntas frecuentes</h2>
           </div>
 
