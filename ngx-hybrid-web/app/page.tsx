@@ -40,6 +40,12 @@ const N8N_WEBHOOK_FALLBACK = process.env.NEXT_PUBLIC_N8N_WEBHOOK_FUNNEL ?? "";
 const COHORT_SPOTS_FILLED = 8;
 const COHORT_SPOTS_TOTAL = 20;
 const cohortAvailabilityText = `${COHORT_SPOTS_FILLED} de ${COHORT_SPOTS_TOTAL} cupos disponibles`;
+const VISUAL_ASSETS = {
+  diagnosticTraining: "/images/brand/genesis-duo.png",
+  diagnosticRecovery: "/images/brand/genesis-solo.png",
+  processContext: "/images/brand/genesis-duo.png",
+  videoThumbnail: "/images/brand/genesis-duo.png",
+} as const;
 
 const faqList = [
   {
@@ -237,7 +243,6 @@ export default function HomePage() {
               onClick={() => {
                 setAgentModalOpen(true);
                 trackEvent("cta_genesis_nav", { section: "header" });
-                trackEvent("cta_apply_header", { section: "header", cta: "genesis" });
               }}
             >
               {`Hablar con GENESIS (${COHORT_SPOTS_TOTAL - COHORT_SPOTS_FILLED} cupos)`}
@@ -337,7 +342,10 @@ export default function HomePage() {
 
         <section className="section-tone section-tone-soft max-w-5xl mx-auto px-4 sm:px-6 mb-24">
           <div className="glass-panel rounded-2xl p-8 sm:p-10 text-center reveal">
-            <p className="text-xs uppercase tracking-[0.24em] text-slate-400 mb-3">Diagnostico rapido</p>
+            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-slate-400 mb-3">
+              <Activity className="w-3.5 h-3.5 text-[#c6b2ff]" />
+              Diagnostico rapido
+            </p>
             <h2 className="text-3xl sm:text-4xl font-semibold mb-8">3 senales de que tu cuerpo te esta avisando algo</h2>
 
             <div className="grid md:grid-cols-3 gap-4 text-left mb-8">
@@ -376,32 +384,36 @@ export default function HomePage() {
             <div className="mt-8 grid sm:grid-cols-2 gap-4 text-left reveal">
               <article className="support-media">
                 <Image
-                  src="https://placehold.co/1200x800/111827/FFFFFF?text=Entrenamiento+de+fuerza+funcional"
-                  alt="Sistema de entrenamiento adaptado a tu vida real"
+                  src={VISUAL_ASSETS.diagnosticTraining}
+                  alt="Slot visual de entrenamiento funcional real"
                   fill
-                  unoptimized
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover"
                 />
+                <span className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/45 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-slate-100">
+                  Slot foto 01
+                </span>
                 <div className="support-media-overlay" />
                 <div className="support-media-copy">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Enfoque fitness</p>
-                  <p className="text-sm text-white font-medium">Sistema de entrenamiento adaptado a tu vida real</p>
+                  <p className="text-sm text-white font-medium">Sesion real de fuerza adaptada a una agenda exigente</p>
                 </div>
               </article>
               <article className="support-media">
                 <Image
-                  src="https://placehold.co/1200x800/0f172a/FFFFFF?text=Recuperacion+estrategica+para+vida+real"
-                  alt="Recuperacion inteligente que mantiene el habito"
+                  src={VISUAL_ASSETS.diagnosticRecovery}
+                  alt="Slot visual de recuperacion inteligente"
                   fill
-                  unoptimized
                   sizes="(max-width: 768px) 100vw, 40vw"
-                  className="object-cover"
+                  className="object-cover object-[62%_center]"
                 />
+                <span className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/45 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-slate-100">
+                  Slot foto 02
+                </span>
                 <div className="support-media-overlay" />
                 <div className="support-media-copy">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Vida real</p>
-                  <p className="text-sm text-white font-medium">Recuperacion inteligente que mantiene el habito</p>
+                  <p className="text-sm text-white font-medium">Recuperacion inteligente para sostener consistencia</p>
                 </div>
               </article>
             </div>
@@ -429,7 +441,10 @@ export default function HomePage() {
 
         <section id="secretos" className="section-anchor section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="text-center mb-10 reveal">
-            <p className="text-xs uppercase tracking-[0.24em] text-slate-400 mb-2">Cambio de creencias</p>
+            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-slate-400 mb-2">
+              <Route className="w-3.5 h-3.5 text-[#c6b2ff]" />
+              Cambio de creencias
+            </p>
             <h2 className="text-3xl sm:text-4xl font-semibold">Lo que nadie te dice (y que cambia todo)</h2>
           </div>
 
@@ -515,16 +530,24 @@ export default function HomePage() {
 
             <article id="video" className="reveal delay-1 glass-panel card-mechanism rounded-2xl p-5 sm:p-6 flex flex-col">
               <div className="brand-photo-frame relative rounded-xl overflow-hidden border border-white/10 bg-black/30 min-h-[260px] sm:min-h-[320px] flex items-center justify-center">
-                <div className="absolute inset-0 w-full h-full bg-black/50 border border-dashed border-white/20 rounded-lg flex items-center justify-center">
-                  <span className="text-sm text-slate-300">Video: como funciona HYBRID en 12 minutos</span>
-                </div>
+                <Image
+                  src={VISUAL_ASSETS.videoThumbnail}
+                  alt="Thumbnail VSL HYBRID (listo para reemplazar por footage fitness real)"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 45vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/45 to-black/35" />
+                <span className="absolute top-3 left-3 rounded-full border border-white/25 bg-black/45 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-slate-100">
+                  Slot video VSL
+                </span>
+                <p className="absolute left-4 right-4 bottom-4 text-sm text-slate-100 text-left">
+                  Video: como funciona HYBRID en 12 minutos
+                </p>
                 <a
                   href={VSL_URL}
                   className="absolute btn-metallic rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2"
-                  onClick={() => {
-                    trackEvent("vsl_play", { section: "video", href: VSL_URL });
-                    trackEvent("vsl_click_hero", { section: "video", href: VSL_URL });
-                  }}
+                  onClick={() => trackEvent("vsl_play", { section: "video", href: VSL_URL })}
                   target={VSL_URL.startsWith("http") ? "_blank" : undefined}
                   rel={VSL_URL.startsWith("http") ? "noopener noreferrer" : undefined}
                 >
@@ -540,13 +563,27 @@ export default function HomePage() {
                   Listo para embed real
                 </span>
               </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {["Mecanismo HYBRID", "Ciencia aplicada", "Siguiente paso claro"].map((item) => (
+                  <span
+                    key={item}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-[11px] text-slate-200"
+                  >
+                    <Check className="w-3 h-3 text-emerald-300" />
+                    {item}
+                  </span>
+                ))}
+              </div>
             </article>
           </div>
         </section>
 
         <section id="como-funciona" className="section-anchor section-tone section-tone-soft max-w-6xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal text-center mb-10">
-            <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">Proceso</p>
+            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">
+              <Check className="w-3.5 h-3.5 text-emerald-300" />
+              Proceso
+            </p>
             <h2 className="text-3xl sm:text-4xl font-semibold">3 pasos para arrancar. Menos de 5 minutos.</h2>
           </div>
 
@@ -595,17 +632,19 @@ export default function HomePage() {
             </article>
             <article className="support-media min-h-[210px]">
               <Image
-                src="https://placehold.co/1200x800/0b1220/FFFFFF?text=Plan+adaptativo+segun+tu+energia+real"
-                alt="Entrenamiento personalizado con enfoque de rendimiento"
+                src={VISUAL_ASSETS.processContext}
+                alt="Slot visual de entrenamiento y progreso en contexto real"
                 fill
-                unoptimized
                 sizes="(max-width: 768px) 100vw, 42vw"
                 className="object-cover"
               />
+              <span className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/45 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-slate-100">
+                Slot foto 03
+              </span>
               <div className="support-media-overlay" />
               <div className="support-media-copy">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Adaptacion</p>
-                <p className="text-sm text-white font-medium">Plan vivo que responde a tu energia real</p>
+                <p className="text-sm text-white font-medium">Plan vivo que responde a tu energia y contexto real</p>
               </div>
             </article>
           </div>
@@ -672,7 +711,6 @@ export default function HomePage() {
                 onClick={() => {
                   setAgentModalOpen(true);
                   trackEvent("cta_genesis_offer", { section: "oferta" });
-                  trackEvent("cta_apply_offer", { section: "oferta", cta: "genesis" });
                 }}
               >
                 HABLAR CON GENESIS - DESCUBRE TU PLAN
@@ -750,7 +788,10 @@ export default function HomePage() {
 
         <section id="preguntas" className="section-anchor section-tone section-tone-soft max-w-4xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal text-center mb-8">
-            <h2 className="text-3xl sm:text-4xl font-semibold">Preguntas frecuentes</h2>
+            <h2 className="inline-flex items-center gap-2 text-3xl sm:text-4xl font-semibold">
+              <MessageCircle className="w-7 h-7 text-[#c6b2ff]" />
+              Preguntas frecuentes
+            </h2>
           </div>
 
           <div className="reveal glass-panel card-mechanism rounded-2xl px-5 sm:px-7 py-2">
