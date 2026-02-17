@@ -34,50 +34,52 @@ declare global {
 }
 
 const APPLY_URL = process.env.NEXT_PUBLIC_APPLY_URL ?? "#";
-const TEAM_CONTACT_URL = process.env.NEXT_PUBLIC_TEAM_CONTACT_URL ?? "#";
 const VSL_URL = process.env.NEXT_PUBLIC_VSL_URL ?? "#";
 const SCHEDULE_URL = process.env.NEXT_PUBLIC_SCHEDULE_URL ?? "#";
 const N8N_WEBHOOK_FALLBACK = process.env.NEXT_PUBLIC_N8N_WEBHOOK_FUNNEL ?? "";
+const COHORT_SPOTS_FILLED = 8;
+const COHORT_SPOTS_TOTAL = 20;
+const cohortAvailabilityText = `${COHORT_SPOTS_FILLED} de ${COHORT_SPOTS_TOTAL} cupos disponibles`;
 
 const faqList = [
   {
     q: "Esto es solo una app?",
-    a: "No. HYBRID combina IA + coach humano + ejecucion real. La IA propone, el coach valida y tu avanzas con criterio.",
+    a: "No. HYBRID combina IA que analiza tu contexto + coach humano que valida decisiones + un sistema que se adapta cada semana. Es lo opuesto a una app generica.",
     event: "faq_open_app",
   },
   {
     q: "Y si tengo poco tiempo?",
-    a: "Disenamos dosis minima efectiva (30-45 min). El objetivo es sostener progreso, no vivir en el gym.",
+    a: "Disenamos para 30-45 minutos por sesion. El objetivo es dosis minima efectiva: el maximo resultado en el minimo tiempo que tu vida permite.",
     event: "faq_open_time",
   },
   {
     q: "Que pasa si tengo semanas dificiles?",
-    a: "El sistema ajusta para mantener estimulo y habito. No se rompe el plan por una semana imperfecta.",
+    a: "El sistema ajusta. No se rompe por una semana imperfecta - se adapta para que no pierdas lo construido. Eso es lo que lo hace diferente.",
     event: "faq_open_weeks",
   },
   {
     q: "Funciona si soy principiante?",
-    a: "Si. Principiantes progresan muy bien cuando el sistema es seguro, simple y consistente.",
+    a: "Si. Principiantes con un sistema seguro y claro progresan mas rapido que veteranos sin direccion. GENESIS adapta todo a tu nivel.",
     event: "faq_open_beginner",
   },
   {
     q: "Como se mide el progreso?",
-    a: "Con fuerza, medidas, energia y adherencia. Importa progreso medible, no promesas vacias.",
+    a: "Medimos fuerza, medidas, energia y adherencia. No hay ambiguedad. En semana 2 ya tienes datos. En semana 4, evidencia.",
     event: "faq_open_progress",
   },
   {
     q: "Necesito un gym completo?",
-    a: "No necesariamente. El sistema se adapta a tu contexto: gym, home gym o mixto. Lo importante es el estimulo correcto, no el lugar.",
+    a: "No. El sistema se adapta a tu contexto: gym completo, home gym o mixto. Lo que importa es el estimulo correcto, no el lugar.",
     event: "faq_open_gym",
   },
   {
     q: "Que tan estricto es?",
-    a: "Es serio, pero no rigido. Buscamos consistencia sostenible (80%), no perfeccion (100%). El sistema esta disenado para adaptarse a la vida real.",
+    a: "Serio pero no rigido. Apuntamos a 80% de consistencia, no 100% de perfeccion. Esta disenado para tu vida real, no para una vida de Instagram.",
     event: "faq_open_strict",
   },
   {
-    q: "Que pasa si no soy fit para HYBRID?",
-    a: "Te lo diremos con total transparencia. Si no es el momento o el programa adecuado, te orientaremos hacia el mejor siguiente paso para ti, que podria ser nuestro programa ASCEND o recursos educativos.",
+    q: "Y si HYBRID no es para mi?",
+    a: "Te lo decimos con transparencia. Si no es el momento o el programa adecuado, te orientamos al mejor siguiente paso - sin presion, sin venta forzada.",
     event: "faq_open_not_fit",
   },
 ];
@@ -118,10 +120,8 @@ export default function HomePage() {
 
   const menuItems = useMemo(
     () => [
-      { id: "que-es", label: "Que es HYBRID" },
       { id: "como-funciona", label: "Como funciona" },
       { id: "garantia", label: "Garantia" },
-      { id: "preguntas", label: "Preguntas" },
     ],
     [],
   );
@@ -231,15 +231,17 @@ export default function HomePage() {
               ))}
             </div>
 
-            <a
-              href={APPLY_URL}
+            <button
+              type="button"
               className="btn-metallic px-5 py-2.5 rounded-full text-white text-xs font-bold tracking-wide"
-              onClick={() => trackEvent("cta_apply_header", { section: "header", href: APPLY_URL })}
-              target={APPLY_URL.startsWith("http") ? "_blank" : undefined}
-              rel={APPLY_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+              onClick={() => {
+                setAgentModalOpen(true);
+                trackEvent("cta_genesis_nav", { section: "header" });
+                trackEvent("cta_apply_header", { section: "header", cta: "genesis" });
+              }}
             >
-              Aplicar a HYBRID
-            </a>
+              {`Hablar con GENESIS (${COHORT_SPOTS_TOTAL - COHORT_SPOTS_FILLED} cupos)`}
+            </button>
           </nav>
 
           {mobileMenuOpen && (
@@ -271,137 +273,164 @@ export default function HomePage() {
               <span className="animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative rounded-full h-2 w-2 bg-emerald-400" />
             </span>
-            <span className="text-[11px] sm:text-xs text-slate-200 font-medium">Cohorte Febrero 2026 - Cupos limitados</span>
+            <span className="text-[11px] sm:text-xs text-slate-200 font-medium">
+              {`Cohorte Febrero 2026 - ${cohortAvailabilityText}`}
+            </span>
           </div>
 
           <h1 className="reveal delay-1 text-4xl sm:text-6xl lg:text-7xl tracking-[-0.02em] leading-[1.03] mb-6 font-semibold max-w-4xl mx-auto">
             Despues de los 30,
             <br />
-            no es el peso.
+            el problema no es el peso.
             <br />
-            <span className="hero-violet">Es la salud muscular.</span>
+            <span className="hero-violet">Es lo que estas perdiendo sin darte cuenta.</span>
           </h1>
 
           <p className="reveal delay-2 hero-subcopy text-base sm:text-lg max-w-3xl mx-auto mb-10 leading-relaxed">
-            La salud muscular es el motor de tu energia, tu metabolismo y como envejece tu cuerpo. HYBRID es el
-            sistema donde IA, coach humano y tu construyen esa base juntos en Seasons de 12 semanas con progreso
-            medible.
+            Cada semana sin un sistema real, tu cuerpo practica envejecer: pierdes musculo, energia y capacidad
+            metabolica. HYBRID detiene eso. IA + coach humano + tu, construyendo en 12 semanas lo que ninguna app
+            puede hacer sola.
           </p>
 
           <div className="reveal delay-3 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-12">
-            <a
+            <button
               id="aplicar"
-              href={APPLY_URL}
+              type="button"
               className="btn-metallic px-8 py-4 rounded-full text-white font-semibold tracking-wide"
+              onClick={() => {
+                setAgentModalOpen(true);
+                trackEvent("cta_genesis_hero", { section: "hero" });
+              }}
+            >
+              DESCUBRE SI HYBRID ES PARA TI
+            </button>
+            <a
+              href={APPLY_URL}
+              className="btn-ghost px-8 py-4 rounded-full text-white font-semibold tracking-wide flex items-center justify-center gap-2"
               onClick={() => trackEvent("cta_apply_hero", { section: "hero", href: APPLY_URL })}
               target={APPLY_URL.startsWith("http") ? "_blank" : undefined}
               rel={APPLY_URL.startsWith("http") ? "noopener noreferrer" : undefined}
             >
-              APLICAR A LA COHORTE
-            </a>
-            <a
-              href={VSL_URL}
-              className="btn-ghost px-8 py-4 rounded-full text-white font-semibold tracking-wide flex items-center justify-center gap-2"
-              onClick={() => trackEvent("vsl_click_hero", { section: "hero", href: VSL_URL })}
-              target={VSL_URL.startsWith("http") ? "_blank" : undefined}
-              rel={VSL_URL.startsWith("http") ? "noopener noreferrer" : undefined}
-            >
-              <Play className="w-4 h-4" />
-              Ver el video de 12 min
+              Ya estoy listo - Aplicar directo
             </a>
           </div>
 
           <div className="reveal delay-3 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto text-left">
             <div className="glass-panel kpi-card rounded-xl p-4">
               <p className="text-2xl font-semibold font-space">91%</p>
-              <p className="text-xs text-slate-300">Adherencia semanal</p>
+              <p className="text-xs text-slate-300">Completan sus sesiones cada semana - sin vivir en el gym</p>
             </div>
             <div className="glass-panel kpi-card rounded-xl p-4">
               <p className="text-2xl font-semibold font-space">12+</p>
-              <p className="text-xs text-slate-300">Semanas ganadoras promedio</p>
+              <p className="text-xs text-slate-300">Semanas consecutivas de progreso medible</p>
             </div>
             <div className="glass-panel kpi-card rounded-xl p-4">
               <p className="text-2xl font-semibold font-space">Semana 2</p>
-              <p className="text-xs text-slate-300">Progreso medible visible</p>
+              <p className="text-xs text-slate-300">El primer cambio que notas: energia y claridad</p>
             </div>
           </div>
 
           <p className="reveal delay-3 season-caption font-space max-w-4xl mx-auto mt-6">
-            Season de 12 semanas · checkpoints en semana 1, 4, 8 y 12.
+            12 semanas. 4 checkpoints. Progreso que se mide, no que se promete.
           </p>
         </section>
 
         <section className="section-tone section-tone-soft max-w-5xl mx-auto px-4 sm:px-6 mb-24">
           <div className="glass-panel rounded-2xl p-8 sm:p-10 text-center reveal">
             <p className="text-xs uppercase tracking-[0.24em] text-slate-400 mb-3">Diagnostico rapido</p>
-            <h2 className="text-3xl sm:text-4xl font-semibold mb-8">3 senales silenciosas de que algo no esta funcionando</h2>
+            <h2 className="text-3xl sm:text-4xl font-semibold mb-8">3 senales de que tu cuerpo te esta avisando algo</h2>
 
             <div className="grid md:grid-cols-3 gap-4 text-left mb-8">
               <article className="card-insight rounded-xl border border-white/10 bg-white/[0.02] p-5">
                 <p className="text-sm text-slate-300 mb-2">01</p>
-                <h3 className="font-space text-lg font-semibold mb-2">Energia baja que ya normalizaste</h3>
+                <h3 className="font-space text-lg font-semibold mb-2">Necesitas cafe para funcionar y a las 3pm ya no das mas</h3>
                 <p className="text-sm text-slate-200 leading-relaxed">
-                  Cafe para arrancar, crash a media tarde. Funcionar al 60% se volvio normal, pero no tiene por que serlo.
+                  Dos cafes antes de las 10am. Crash a las 3pm. Arrastrarte hasta las 6. Lo normalizaste como
+                  &quot;es mi ritmo&quot;. No lo es. Tu sistema muscular esta apagado y tu metabolismo lo sabe.
                 </p>
               </article>
               <article className="card-insight rounded-xl border border-white/10 bg-white/[0.02] p-5">
                 <p className="text-sm text-slate-300 mb-2">02</p>
-                <h3 className="font-space text-lg font-semibold mb-2">Rigidez o dolor sin razon</h3>
+                <h3 className="font-space text-lg font-semibold mb-2">
+                  Dolor de espalda, hombro o rodilla que &quot;aparecio solo&quot;
+                </h3>
                 <p className="text-sm text-slate-200 leading-relaxed">
-                  Hombro, espalda o rodilla. No es la edad, es una senal de que el sistema no esta construyendo base muscular correcta.
+                  No es la edad. No es genetica. Es tu cuerpo compensando la falta de fuerza funcional. Sin base
+                  muscular correcta, las articulaciones pagan la cuenta.
                 </p>
               </article>
               <article className="card-insight rounded-xl border border-white/10 bg-white/[0.02] p-5">
                 <p className="text-sm text-slate-300 mb-2">03</p>
-                <h3 className="font-space text-lg font-semibold mb-2">Empiezas fuerte y se cae en 2-3 semanas</h3>
+                <h3 className="font-space text-lg font-semibold mb-2">Llevas 3+ intentos este ano y siempre se cae</h3>
                 <p className="text-sm text-slate-200 leading-relaxed">
-                  No es falta de ganas. Es un plan que solo funciona en una vida perfecta, no en tu vida real.
+                  Enero, marzo, septiembre. Mismo ciclo: arrancas motivado, la vida se cruza, abandonas. No es falta
+                  de ganas. Es que tu plan solo funciona cuando todo esta perfecto. Y tu vida nunca lo esta.
                 </p>
               </article>
             </div>
 
             <p className="text-lg sm:text-xl text-slate-200 font-medium leading-relaxed max-w-3xl mx-auto">
-              Tu plan esta disenado para tu vida real o para una vida perfecta. Si solo funciona cuando todo esta en
-              orden, no es un plan.
+              Si tu plan solo funciona cuando todo esta en orden, no tienes un plan. Tienes un deseo.
             </p>
 
             <div className="mt-8 grid sm:grid-cols-2 gap-4 text-left reveal">
               <article className="support-media">
                 <Image
                   src="https://placehold.co/1200x800/111827/FFFFFF?text=Entrenamiento+de+fuerza+funcional"
-                  alt="Entrenamiento con enfoque de fuerza funcional"
+                  alt="Sistema de entrenamiento adaptado a tu vida real"
                   fill
+                  unoptimized
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover"
                 />
                 <div className="support-media-overlay" />
                 <div className="support-media-copy">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Enfoque fitness</p>
-                  <p className="text-sm text-white font-medium">Fuerza funcional con progresion sostenible</p>
+                  <p className="text-sm text-white font-medium">Sistema de entrenamiento adaptado a tu vida real</p>
                 </div>
               </article>
               <article className="support-media">
                 <Image
                   src="https://placehold.co/1200x800/0f172a/FFFFFF?text=Recuperacion+estrategica+para+vida+real"
-                  alt="Recuperacion y consistencia en entrenamiento"
+                  alt="Recuperacion inteligente que mantiene el habito"
                   fill
+                  unoptimized
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover"
                 />
                 <div className="support-media-overlay" />
                 <div className="support-media-copy">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Vida real</p>
-                  <p className="text-sm text-white font-medium">Recuperacion estrategica para no romper el habito</p>
+                  <p className="text-sm text-white font-medium">Recuperacion inteligente que mantiene el habito</p>
                 </div>
               </article>
             </div>
           </div>
         </section>
 
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 mb-24 text-center">
+          <div className="reveal glass-panel rounded-2xl p-6 sm:p-8 border border-[#6D00FF]/25">
+            <p className="text-lg sm:text-xl text-slate-100 font-medium mb-2">Te identificaste con alguna de estas senales?</p>
+            <p className="text-sm text-slate-300 mb-5">
+              GENESIS puede decirte en 2 minutos que esta pasando y si HYBRID es lo que necesitas.
+            </p>
+            <button
+              type="button"
+              className="btn-metallic rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide"
+              onClick={() => {
+                setAgentModalOpen(true);
+                trackEvent("cta_genesis_midpage", { section: "micro_cta_1" });
+              }}
+            >
+              Hablar con GENESIS ahora
+            </button>
+          </div>
+        </section>
+
         <section id="secretos" className="section-anchor section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="text-center mb-10 reveal">
             <p className="text-xs uppercase tracking-[0.24em] text-slate-400 mb-2">Cambio de creencias</p>
-            <h2 className="text-3xl sm:text-4xl font-semibold">Lo que nadie te esta diciendo</h2>
+            <h2 className="text-3xl sm:text-4xl font-semibold">Lo que nadie te dice (y que cambia todo)</h2>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-5">
@@ -409,14 +438,16 @@ export default function HomePage() {
               <div className="w-11 h-11 rounded-xl bg-[#6D00FF]/18 flex items-center justify-center mb-5">
                 <Activity className="w-5 h-5 text-[#c6b2ff]" />
               </div>
-              <h3 className="font-space text-2xl font-semibold mb-3">El musculo no es estetica. Es tu motor.</h3>
+              <h3 className="font-space text-2xl font-semibold mb-3">El musculo no es vanidad. Es tu seguro de vida.</h3>
               <p className="text-slate-200 text-sm leading-relaxed mb-4">
-                El peso suele ser el sintoma. La salud muscular suele ser la causa que nadie atiende. No es bajar por
-                bajar, es construir capacidad para que todo lo demas mejore.
+                Mientras te obsesionas con la bascula, tu cuerpo esta perdiendo el activo mas importante: masa
+                muscular. Es lo que regula tu metabolismo, protege tus articulaciones y define como envejeces. Todo lo
+                demas es sintoma.
               </p>
               <hr className="border-white/10 my-4" />
               <p className="text-sm text-emerald-200 font-medium leading-relaxed">
-                Construir musculo mejora energia, metabolismo y longevidad. El cambio estetico llega como consecuencia.
+                &quot;Deje de enfocarme en el peso y en 8 semanas mi energia cambio por completo.&quot; - Participante
+                HYBRID, 41 anos
               </p>
             </article>
 
@@ -424,14 +455,16 @@ export default function HomePage() {
               <div className="w-11 h-11 rounded-xl bg-[#6D00FF]/18 flex items-center justify-center mb-5">
                 <Route className="w-5 h-5 text-[#c6b2ff]" />
               </div>
-              <h3 className="font-space text-2xl font-semibold mb-3">No fallas por falta de ganas.</h3>
+              <h3 className="font-space text-2xl font-semibold mb-3">No es falta de disciplina. Es falta de sistema.</h3>
               <p className="text-slate-200 text-sm leading-relaxed mb-4">
-                No te falta ganas; te falta claridad. Cuando cada semana tiene objetivo, progreso visible y ajustes
-                puntuales, dejas de empezar de cero.
+                Llevas anos intentandolo. De verdad crees que es falta de voluntad? Con el sistema correcto, la
+                disciplina deja de ser un problema. Cada semana tiene direccion, cada sesion tiene proposito, y cuando
+                la vida se complica, el plan se adapta en vez de romperse.
               </p>
               <hr className="border-white/10 my-4" />
               <p className="text-sm text-emerald-200 font-medium leading-relaxed">
-                Con un sistema claro, la consistencia deja de depender de motivacion y empieza a depender de proceso.
+                &quot;Primera vez que llego a semana 10 sin fallar. No es motivacion, es que el sistema no te deja
+                caer.&quot; - Participante HYBRID, 36 anos
               </p>
             </article>
 
@@ -439,14 +472,16 @@ export default function HomePage() {
               <div className="w-11 h-11 rounded-xl bg-[#6D00FF]/18 flex items-center justify-center mb-5">
                 <RefreshCw className="w-5 h-5 text-[#c6b2ff]" />
               </div>
-              <h3 className="font-space text-2xl font-semibold mb-3">La consistencia no se exige. Se disena.</h3>
+              <h3 className="font-space text-2xl font-semibold mb-3">Tu vida cambia cada semana. Tu plan deberia hacer lo mismo.</h3>
               <p className="text-slate-200 text-sm leading-relaxed mb-4">
-                Tu vida cambia y el plan tambien. HYBRID ajusta carga y enfoque para que no pierdas ritmo cuando hay
-                viajes, estres o semanas caoticas.
+                Viaje de negocios, semana de estres, hijo enfermo, deadline imposible. La vida no espera. HYBRID
+                ajusta dosis, enfoque y prioridad para que no pierdas lo construido. Progreso real no requiere semanas
+                perfectas.
               </p>
               <hr className="border-white/10 my-4" />
               <p className="text-sm text-emerald-200 font-medium leading-relaxed">
-                El progreso real no exige semanas perfectas: exige un plan que se adapte rapido a tu vida real.
+                &quot;Viaje 3 semanas seguidas y no perdi una sola sesion. El plan se adapto conmigo.&quot; -
+                Participante HYBRID, 44 anos
               </p>
             </article>
           </div>
@@ -455,22 +490,24 @@ export default function HomePage() {
         <section id="que-es" className="section-anchor section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="grid lg:grid-cols-2 gap-6 items-stretch">
             <article className="reveal glass-panel card-mechanism rounded-2xl p-8 sm:p-10">
-              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-3">Nueva oportunidad</p>
-              <h2 className="text-3xl sm:text-4xl font-semibold mb-4">HYBRID: IA + Coach + Tu. Trabajando juntos.</h2>
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-3">El sistema</p>
+              <h2 className="text-3xl sm:text-4xl font-semibold mb-4">
+                HYBRID: el primer sistema donde IA y coach humano trabajan juntos para ti.
+              </h2>
               <p className="text-slate-200 leading-relaxed mb-5">
-                HYBRID no es una app con rutinas ni un PDF semanal. Es un sistema donde la IA analiza contexto, el coach
-                humano valida criterio y tu ejecutas con feedback minimo.
+                GENESIS analiza tu contexto real - sueno, estres, disponibilidad, historial - y disena tu semana. Un
+                coach humano valida cada decision importante. Tu ejecutas sabiendo exactamente que hacer y por que.
               </p>
               <p className="text-slate-200 leading-relaxed mb-5">
-                Resultado: progresas con control de calidad, sin adivinar, y aprendes a tomar mejores decisiones sobre tu salud.
+                Cada semana progresas con control de calidad. Sin adivinar. Sin improvisar. Y cada semana aprendes a
+                tomar mejores decisiones sobre tu cuerpo.
               </p>
 
               <div className="bg-black/30 p-4 rounded-lg border border-white/10 font-mono text-sm text-shield">
                 <p className="text-xs uppercase tracking-[0.16em] text-slate-300 mb-3">Mini demo contextual</p>
                 <pre>
                   <code className="text-sm text-slate-200 leading-relaxed whitespace-pre-wrap">
-                    Persona de 37 anos, 3 dias por semana, 45 min por sesion, sueno de 6 horas y estres alto. HYBRID
-                    disena una Season de 12 semanas, entrega semana 1 lista y ajusta dosis cuando la vida cambia.
+                    {"// Input: 37 anos - 3 dias/semana - 45 min - sueno 6h - estres alto\n// GENESIS output:\n-> Season 12 semanas: fuerza funcional + recomposicion\n-> Semana 1: 3 sesiones (full body, 40 min adaptadas)\n-> Nutricion: protocolo flexible, 4 comidas, sin restricciones extremas\n-> Alerta: sueno bajo -> priorizar recuperacion sobre volumen\n-> Checkpoint semana 1: ajustar segun respuesta real"}
                   </code>
                 </pre>
               </div>
@@ -479,21 +516,26 @@ export default function HomePage() {
             <article id="video" className="reveal delay-1 glass-panel card-mechanism rounded-2xl p-5 sm:p-6 flex flex-col">
               <div className="brand-photo-frame relative rounded-xl overflow-hidden border border-white/10 bg-black/30 min-h-[260px] sm:min-h-[320px] flex items-center justify-center">
                 <div className="absolute inset-0 w-full h-full bg-black/50 border border-dashed border-white/20 rounded-lg flex items-center justify-center">
-                  <span className="text-sm text-slate-300">[Thumbnail VSL 12 min]</span>
+                  <span className="text-sm text-slate-300">Video: como funciona HYBRID en 12 minutos</span>
                 </div>
                 <a
                   href={VSL_URL}
                   className="absolute btn-metallic rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2"
-                  onClick={() => trackEvent("vsl_play", { section: "video", href: VSL_URL })}
+                  onClick={() => {
+                    trackEvent("vsl_play", { section: "video", href: VSL_URL });
+                    trackEvent("vsl_click_hero", { section: "video", href: VSL_URL });
+                  }}
                   target={VSL_URL.startsWith("http") ? "_blank" : undefined}
                   rel={VSL_URL.startsWith("http") ? "noopener noreferrer" : undefined}
                 >
                   <Play className="w-4 h-4" />
-                  Ver VSL de 12 min
+                  Ver el video completo (12 min)
                 </a>
               </div>
               <div className="mt-4 flex items-center justify-between gap-4">
-                <p className="text-xs text-slate-200">Video principal: argumento completo, mecanismo y oferta.</p>
+                <p className="text-xs text-slate-200">
+                  Aldo te explica el mecanismo completo, la ciencia detras y que esperar de tus 12 semanas.
+                </p>
                 <span className="text-[11px] rounded-full border border-emerald-400/30 bg-emerald-400/10 text-emerald-300 px-2 py-1">
                   Listo para embed real
                 </span>
@@ -505,25 +547,25 @@ export default function HomePage() {
         <section id="como-funciona" className="section-anchor section-tone section-tone-soft max-w-6xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal text-center mb-10">
             <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">Proceso</p>
-            <h2 className="text-3xl sm:text-4xl font-semibold">3 pasos. 12 semanas. Progreso real.</h2>
+            <h2 className="text-3xl sm:text-4xl font-semibold">3 pasos para arrancar. Menos de 5 minutos.</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-5">
             {[
               {
                 n: "1",
-                title: "Aplica y arranca tu Season",
-                text: "Aplicacion de 90 segundos. Si eres fit, arrancas esta misma semana con un kickstart guiado de 7 dias.",
+                title: "Habla con GENESIS (2 min)",
+                text: "GENESIS te hace las preguntas correctas, evalua si HYBRID es para ti, y te dice exactamente cual es tu siguiente paso. Sin compromiso.",
               },
               {
                 n: "2",
-                title: "Ejecuta con claridad",
-                text: "Recibes plan semanal de entrenamiento, nutricion y checkpoints. Tu tarea: ejecutar y dar feedback minimo.",
+                title: "Arranca tu Season esta semana",
+                text: "Kickstart guiado de 7 dias. Plan de entrenamiento, nutricion y checkpoints listos. Tu unica tarea: ejecutar y reportar como te sientes.",
               },
               {
                 n: "3",
-                title: "Acumula semanas ganadoras",
-                text: "Revisiones por fase con metricas reales: fuerza, medidas, energia y adherencia. Menos drama, mas progreso medible.",
+                title: "Mide tu progreso cada semana",
+                text: "Fuerza, medidas, energia, adherencia. En semana 2 ya tienes datos reales. En semana 4, evidencia. En semana 12, una transformacion que se mide.",
               },
             ].map((step, idx) => (
               <article key={step.n} className={`reveal glass-panel card-mechanism rounded-2xl p-6 sm:p-7 ${idx === 1 ? "delay-1" : ""} ${idx === 2 ? "delay-2" : ""}`}>
@@ -556,6 +598,7 @@ export default function HomePage() {
                 src="https://placehold.co/1200x800/0b1220/FFFFFF?text=Plan+adaptativo+segun+tu+energia+real"
                 alt="Entrenamiento personalizado con enfoque de rendimiento"
                 fill
+                unoptimized
                 sizes="(max-width: 768px) 100vw, 42vw"
                 className="object-cover"
               />
@@ -568,53 +611,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="oferta" className="section-anchor section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-20">
-          <article className="reveal glass-panel card-offer rounded-2xl p-7 sm:p-10 border border-[#6D00FF]/35 shadow-[0_0_70px_-30px_rgba(109,0,255,0.7)]">
-            <h2 className="text-3xl sm:text-4xl font-semibold mb-2">Tu Season de 12 semanas incluye</h2>
-            <p className="text-slate-200 mb-8">Mas valor real, no descuentos vacios.</p>
-
-            <div className="rounded-xl border border-white/10 bg-black/20 overflow-hidden mb-6">
-              {[
-                ["Season completa de 12 semanas", "$1,500"],
-                ["Coaching humano semanal", "$1,200"],
-                ["Sistema IA adaptativo", "$800"],
-                ["Nutricion alineada al contexto", "$600"],
-                ["Kickstart guiado de 7 dias", "$300"],
-                ["Comunidad privada NGX", "Incluido"],
-              ].map(([label, value], idx) => (
-                <div key={label} className={`grid grid-cols-12 gap-3 px-4 py-4 text-sm ${idx < 5 ? "value-row" : ""}`}>
-                  <p className="col-span-7 text-slate-100 flex items-center">
-                    <Check className="w-4 h-4 text-emerald-300 inline-block mr-2" />
-                    <span>{label}</span>
-                  </p>
-                  <p className={`col-span-5 text-right ${value === "Incluido" ? "text-emerald-300" : "text-slate-300"}`}>{value}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="accent-line mb-5" />
-
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-              <div>
-                <p className="text-sm text-slate-300">Valor total de referencia</p>
-                <p className="font-space text-3xl font-semibold line-through">$4,400+</p>
-                <p className="text-sm text-slate-200 mt-2">
-                  Inversion real: <span className="text-white font-semibold text-2xl">$199-$499 / mes</span> segun nivel de soporte.
-                </p>
-              </div>
-              <a
-                href={APPLY_URL}
-                className="btn-metallic rounded-full px-7 py-3 text-sm font-semibold tracking-wide"
-                onClick={() => trackEvent("cta_apply_offer", { section: "oferta", href: APPLY_URL })}
-                target={APPLY_URL.startsWith("http") ? "_blank" : undefined}
-                rel={APPLY_URL.startsWith("http") ? "noopener noreferrer" : undefined}
-              >
-                APLICAR A HYBRID
-              </a>
-            </div>
-          </article>
-        </section>
-
         <section id="garantia" className="section-anchor section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-10">
           <article className="reveal glass-panel card-offer rounded-2xl p-7 sm:p-8 border border-emerald-400/25">
             <div className="flex items-start gap-4">
@@ -623,35 +619,82 @@ export default function HomePage() {
               </div>
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-300 text-xs font-medium mb-3">
-                  Riesgo Cero. Progreso Garantizado.
+                  Sin riesgo. Sin letra pequena.
                 </div>
-                <p className="text-xs uppercase tracking-[0.2em] text-emerald-300 mb-2">Garantia de progreso medible</p>
-                <h2 className="text-2xl sm:text-3xl font-semibold mb-3">30 dias. Riesgo invertido.</h2>
+                <p className="text-xs uppercase tracking-[0.2em] text-emerald-300 mb-2">Garantia de progreso - o seguimos gratis</p>
+                <h2 className="text-2xl sm:text-3xl font-semibold mb-3">
+                  Si en 30 dias no hay progreso medible, seguimos sin costo.
+                </h2>
                 <p className="text-slate-200 leading-relaxed">
-                  Si cumples el protocolo minimo (80% de sesiones + check-ins semanales) y en 30 dias no hay progreso
-                  medible en al menos 2 metricas (fuerza, medidas, energia o consistencia), extendemos 4 semanas HYBRID
-                  sin costo.
+                  Cumple el minimo: 80% de sesiones y tus check-ins semanales. Si en 30 dias no ves progreso medible
+                  en al menos 2 metricas - fuerza, medidas, energia o consistencia - te damos 4 semanas extra de
+                  HYBRID. Gratis. Sin preguntas. Porque si el sistema funciona, no necesitamos protegernos. Y si no
+                  funciona, no merecemos tu dinero.
                 </p>
               </div>
             </div>
           </article>
         </section>
 
+        <section id="oferta" className="section-anchor section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-20">
+          <article className="reveal glass-panel card-offer rounded-2xl p-7 sm:p-10 border border-[#6D00FF]/35 shadow-[0_0_70px_-30px_rgba(109,0,255,0.7)]">
+            <h2 className="text-3xl sm:text-4xl font-semibold mb-2">Todo lo que recibes en tu Season de 12 semanas</h2>
+            <p className="text-slate-200 mb-8">Valor real. No descuentos de humo.</p>
+
+            <div className="rounded-xl border border-white/10 bg-black/20 overflow-hidden mb-6">
+              {[
+                "Season completa de 12 semanas con periodizacion personalizada",
+                "Coaching humano semanal (validacion de decisiones clave)",
+                "GENESIS: IA adaptativa que ajusta tu plan en tiempo real",
+                "Protocolo nutricional alineado a tu contexto y objetivos",
+                "Kickstart guiado de 7 dias para arrancar con traccion",
+                "Comunidad privada NGX + soporte directo",
+              ].map((item, idx) => (
+                <div key={item} className={`flex items-center gap-3 px-4 py-4 text-sm ${idx < 5 ? "value-row" : ""}`}>
+                  <Check className="w-4 h-4 text-emerald-300 flex-shrink-0" />
+                  <span className="text-slate-100">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="accent-line mb-5" />
+
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p className="text-sm text-slate-200 mt-2">
+                  Tu inversion depende de tu nivel de soporte y objetivos. GENESIS te ayuda a encontrar el plan
+                  correcto en una conversacion de 2 minutos.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="btn-metallic rounded-full px-7 py-3 text-sm font-semibold tracking-wide"
+                onClick={() => {
+                  setAgentModalOpen(true);
+                  trackEvent("cta_genesis_offer", { section: "oferta" });
+                  trackEvent("cta_apply_offer", { section: "oferta", cta: "genesis" });
+                }}
+              >
+                HABLAR CON GENESIS - DESCUBRE TU PLAN
+              </button>
+            </div>
+          </article>
+        </section>
+
         <section className="section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal rounded-xl border border-[#6D00FF]/25 bg-[#6D00FF]/10 px-5 py-4 text-sm text-[#e2d8ff]">
-            HYBRID es limitado por capacidad de coaches y control de calidad. Abrimos cupos por cohorte. Cuando se llenan,
-            cerramos.
+            {`Cohorte Febrero 2026: ${cohortAvailabilityText}. Cada Season esta limitada por capacidad de coaches - cuando se llenan, cerramos inscripciones hasta la siguiente cohorte.`}
           </div>
         </section>
 
         <section id="agente" className="section-anchor section-tone section-tone-soft max-w-6xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal grid lg:grid-cols-[1.1fr_0.9fr] gap-6 items-stretch">
             <article className="glass-panel card-mechanism rounded-2xl p-7 sm:p-8">
-              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">Canal conversacional</p>
-              <h2 className="text-3xl font-semibold mb-3">Habla con un agente IA de NGX</h2>
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">Tu primer paso</p>
+              <h2 className="text-3xl font-semibold mb-3">Habla con GENESIS antes de decidir</h2>
               <p className="text-slate-200 leading-relaxed mb-5">
-                Si quieres resolver dudas antes de aplicar, aqui conectaremos un agente conversacional con ElevenLabs. Te
-                explicara el proceso, si eres fit para HYBRID y cual es el siguiente paso.
+                GENESIS te hace las preguntas correctas sobre tu contexto, objetivos y disponibilidad. En 2 minutos te
+                dice si HYBRID es para ti y cual es tu siguiente paso. Sin compromiso. Sin venderte nada.
               </p>
               <div className="flex flex-wrap gap-3">
                 <button
@@ -660,14 +703,18 @@ export default function HomePage() {
                   onClick={() => {
                     setAgentModalOpen(true);
                     trackEvent("agent_open_click", { section: "agente" });
+                    trackEvent("cta_genesis_agente", { section: "agente" });
                   }}
                 >
-                  Abrir chat conversacional
+                  Iniciar conversacion con GENESIS
                 </button>
                 <a
                   href={SCHEDULE_URL}
                   className="btn-ghost rounded-full px-6 py-3 text-sm font-semibold"
-                  onClick={() => trackEvent("agent_schedule_click", { section: "agente", href: SCHEDULE_URL })}
+                  onClick={() => {
+                    trackEvent("agent_schedule_click", { section: "agente", href: SCHEDULE_URL });
+                    trackEvent("cta_schedule_agente", { section: "agente", href: SCHEDULE_URL });
+                  }}
                   target={SCHEDULE_URL.startsWith("http") ? "_blank" : undefined}
                   rel={SCHEDULE_URL.startsWith("http") ? "noopener noreferrer" : undefined}
                 >
@@ -682,7 +729,7 @@ export default function HomePage() {
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-sm font-medium">Widget conversacional</p>
                   <span className="float-chip text-[10px] border border-emerald-400/35 bg-emerald-400/10 text-emerald-300 px-2 py-1 rounded-full">
-                    Preparado
+                    En linea
                   </span>
                 </div>
                 <div
@@ -692,7 +739,7 @@ export default function HomePage() {
                   <div className="flex flex-col items-center gap-3">
                     <Loader className="w-5 h-5 text-emerald-300 animate-spin" />
                     <p className="text-sm text-slate-300">
-                      Nuestro agente de IA esta cargando. Estara listo para conversar en un momento.
+                      GENESIS se esta preparando. En un momento podras hablar directamente.
                     </p>
                   </div>
                 </div>
@@ -734,30 +781,34 @@ export default function HomePage() {
 
         <section className="section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-12">
           <article className="reveal glass-panel card-offer rounded-2xl p-8 sm:p-10 text-center">
-            <h2 className="text-3xl sm:text-5xl font-semibold mb-3">No necesitas mas motivacion.</h2>
-            <p className="text-xl text-slate-200 mb-3">Necesitas un sistema que te haga avanzar con tu vida real.</p>
+            <h2 className="text-3xl sm:text-5xl font-semibold mb-3">No necesitas mas informacion.</h2>
+            <p className="text-xl text-slate-200 mb-3">
+              Necesitas un sistema que funcione con tu vida real. Y 2 minutos con GENESIS para saber si es este.
+            </p>
             <p className="text-slate-300 max-w-3xl mx-auto mb-8">
-              Si quieres construir salud muscular de forma medible en las proximas 12 semanas, aplica y lo armamos contigo.
+              12 semanas. Progreso medible. Garantia de resultado. Lo unico que necesitas decidir es si quieres
+              empezar.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-3">
+              <button
+                type="button"
+                className="btn-metallic rounded-full px-8 py-4 text-sm sm:text-base font-semibold"
+                onClick={() => {
+                  setAgentModalOpen(true);
+                  trackEvent("cta_genesis_final", { section: "cta_final" });
+                }}
+              >
+                HABLAR CON GENESIS - EMPIEZA AQUI
+              </button>
               <a
                 href={APPLY_URL}
-                className="btn-metallic rounded-full px-8 py-4 text-sm sm:text-base font-semibold"
+                className="btn-ghost rounded-full px-8 py-4 text-sm sm:text-base font-semibold"
                 onClick={() => trackEvent("cta_apply_final", { section: "cta_final", href: APPLY_URL })}
                 target={APPLY_URL.startsWith("http") ? "_blank" : undefined}
                 rel={APPLY_URL.startsWith("http") ? "noopener noreferrer" : undefined}
               >
-                APLICAR A HYBRID
-              </a>
-              <a
-                href={TEAM_CONTACT_URL}
-                className="btn-ghost rounded-full px-8 py-4 text-sm sm:text-base font-semibold"
-                onClick={() => trackEvent("cta_team_contact", { section: "cta_final", href: TEAM_CONTACT_URL })}
-                target={TEAM_CONTACT_URL.startsWith("http") ? "_blank" : undefined}
-                rel={TEAM_CONTACT_URL.startsWith("http") ? "noopener noreferrer" : undefined}
-              >
-                Tengo una pregunta - Hablar con el equipo
+                Aplicar directamente
               </a>
             </div>
           </article>
@@ -781,11 +832,11 @@ export default function HomePage() {
           {[
             {
               title: "Producto",
-              links: ["HYBRID", "ASCEND", "GENESIS BRAIN"],
+              links: ["HYBRID", "ASCEND", "GENESIS"],
             },
             {
               title: "Compania",
-              links: ["Sobre NGX", "Historia de Aldo", "Contacto"],
+              links: ["Sobre NGX", "Manifiesto", "Contacto"],
             },
             {
               title: "Legal",
@@ -823,7 +874,7 @@ export default function HomePage() {
         }}
       >
         <MessageCircle className="w-4 h-4" />
-        Hablar con IA
+        Es HYBRID para ti?
       </button>
 
       {agentModalOpen && (
@@ -834,7 +885,7 @@ export default function HomePage() {
         >
           <div className="glass-panel rounded-2xl w-full max-w-2xl p-5 sm:p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-space text-xl font-semibold">Agente conversacional NGX</h3>
+              <h3 className="font-space text-xl font-semibold">GENESIS - NGX</h3>
               <button
                 type="button"
                 className="btn-ghost rounded-lg p-2"
@@ -846,10 +897,10 @@ export default function HomePage() {
             </div>
 
             <p className="text-sm text-slate-300 mb-4">
-              Aqui conectaremos el widget real de ElevenLabs para conversar sobre HYBRID en tiempo real.
+              Hazle cualquier pregunta. GENESIS te dice en 2 minutos si HYBRID es lo que necesitas.
             </p>
             <div className="rounded-xl border border-dashed border-white/20 min-h-[260px] p-4 flex items-center justify-center text-center text-slate-400">
-              Placeholder de chat/embed para integracion SDK de ElevenLabs.
+              Conectando con GENESIS...
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
               <a
@@ -857,14 +908,18 @@ export default function HomePage() {
                 className="btn-metallic rounded-full px-5 py-2.5 text-sm font-semibold"
                 onClick={() => trackEvent("agent_apply_modal", { section: "agent_modal", href: APPLY_URL })}
               >
-                Aplicar ahora
+                Aplicar directamente
               </a>
               <a
                 href={SCHEDULE_URL}
                 className="btn-ghost rounded-full px-5 py-2.5 text-sm font-semibold"
-                onClick={() => trackEvent("agent_schedule_modal", { section: "agent_modal", href: SCHEDULE_URL })}
+                onClick={() => {
+                  trackEvent("agent_schedule_modal", { section: "agent_modal", href: SCHEDULE_URL });
+                  trackEvent("cta_schedule_agent_modal", { section: "agent_modal", href: SCHEDULE_URL });
+                  trackEvent("cta_team_contact", { section: "agent_modal", href: SCHEDULE_URL });
+                }}
               >
-                Agendar llamada
+                Prefiero hablar con una persona
               </a>
             </div>
           </div>
