@@ -134,8 +134,11 @@ export default function HomePage() {
 
   const menuItems = useMemo(
     () => [
+      { id: "secretos", label: "Secretos" },
       { id: "como-funciona", label: "Como funciona" },
+      { id: "resultados", label: "Resultados" },
       { id: "garantia", label: "Garantia" },
+      { id: "preguntas", label: "Preguntas" },
     ],
     [],
   );
@@ -281,84 +284,125 @@ export default function HomePage() {
       </header>
 
       <main className="relative z-10 pt-32 sm:pt-40 pb-28 sm:pb-20">
-        <section className="section-tone section-tone-strong max-w-5xl mx-auto px-4 sm:px-6 text-center mb-24 sm:mb-28">
-          <div className="reveal inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel mb-10">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative rounded-full h-2 w-2 bg-emerald-400" />
-            </span>
-            <span className="text-[11px] sm:text-xs text-slate-200 font-medium">
-              {`Cohorte Febrero 2026 - ${cohortAvailabilityText}`}
-            </span>
-          </div>
-
-          <h1 className="reveal delay-1 text-4xl sm:text-6xl lg:text-7xl tracking-[-0.02em] leading-[1.03] mb-6 font-semibold max-w-4xl mx-auto">
-            Despues de los 30,
-            <br />
-            el problema no es el peso.
-            <br />
-            <span className="hero-violet">Es lo que estas perdiendo sin darte cuenta.</span>
-          </h1>
-
-          <p className="reveal delay-2 hero-subcopy text-[15px] sm:text-lg max-w-4xl mx-auto mb-8 sm:mb-10 leading-relaxed">
-            Cada semana sin un sistema real, tu cuerpo practica envejecer: pierdes musculo, energia y capacidad
-            metabolica. HYBRID detiene eso. IA + coach humano + tu, construyendo en 12 semanas lo que ninguna app
-            puede hacer sola.
-          </p>
-
-          <div className="reveal delay-3 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-12">
-            <button
-              id="aplicar"
-              type="button"
-              className="btn-metallic px-8 py-4 rounded-full text-white font-semibold tracking-wide"
-              onClick={() => {
-                setAgentModalOpen(true);
-                trackEvent("cta_genesis_hero", { section: "hero" });
-              }}
-            >
-              DESCUBRE SI HYBRID ES PARA TI
-            </button>
-            <a
-              href={APPLY_URL}
-              className="btn-ghost px-8 py-4 rounded-full text-white font-semibold tracking-wide flex items-center justify-center gap-2"
-              onClick={() => trackEvent("cta_apply_hero", { section: "hero", href: APPLY_URL })}
-              target={APPLY_URL.startsWith("http") ? "_blank" : undefined}
-              rel={APPLY_URL.startsWith("http") ? "noopener noreferrer" : undefined}
-            >
-              Ya estoy listo - Aplicar directo
-            </a>
-          </div>
-
-          <div className="reveal delay-3 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto text-left">
-            <div className="glass-panel kpi-card rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-2xl font-semibold font-space">91%</span>
-                <span className="text-lg">🔥</span>
+        <section className="section-tone section-tone-strong max-w-7xl mx-auto px-4 sm:px-6 mb-24 sm:mb-28">
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-10 items-center">
+            <div className="text-center lg:text-left">
+              <div className="reveal inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel mb-8">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative rounded-full h-2 w-2 bg-emerald-400" />
+                </span>
+                <span className="text-[11px] sm:text-xs text-slate-200 font-medium">
+                  {`Cohorte Febrero 2026 - ${cohortAvailabilityText}`}
+                </span>
               </div>
-              <p className="text-[11px] uppercase tracking-wider text-[#A78BFA] font-medium mb-0.5">Adherencia al programa</p>
-              <p className="text-xs text-slate-300">Completan sus sesiones cada semana - sin vivir en el gym</p>
-            </div>
-            <div className="glass-panel kpi-card rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-2xl font-semibold font-space">12+</span>
-                <Dumbbell className="w-5 h-5 text-[#A78BFA]" />
-              </div>
-              <p className="text-[11px] uppercase tracking-wider text-[#A78BFA] font-medium mb-0.5">Semanas de Season</p>
-              <p className="text-xs text-slate-300">Semanas consecutivas de progreso medible</p>
-            </div>
-            <div className="glass-panel kpi-card kpi-card-health rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-2xl font-semibold font-space">Semana 2</span>
-                <Activity className="w-5 h-5 text-emerald-400" />
-              </div>
-              <p className="text-[11px] uppercase tracking-wider text-emerald-400 font-medium mb-0.5">Primeros datos medibles</p>
-              <p className="text-xs text-slate-300">El primer cambio que notas: energia y claridad</p>
-            </div>
-          </div>
 
-          <p className="reveal delay-3 season-caption font-space max-w-4xl mx-auto mt-6">
-            12 semanas. 4 checkpoints. Progreso que se mide, no que se promete.
-          </p>
+              <h1 className="reveal delay-1 text-4xl sm:text-6xl xl:text-7xl tracking-[-0.02em] leading-[1.03] mb-6 font-semibold max-w-4xl mx-auto lg:mx-0">
+                Despues de los 30,
+                <br />
+                el problema no es el peso.
+                <br />
+                <span className="hero-violet">Es lo que estas perdiendo sin darte cuenta.</span>
+              </h1>
+
+              <p className="reveal delay-2 hero-subcopy text-[15px] sm:text-lg max-w-3xl mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed">
+                Cada semana sin un sistema real, tu cuerpo practica envejecer: pierdes musculo, energia y capacidad
+                metabolica. HYBRID detiene eso. IA + coach humano + tu, construyendo en 12 semanas lo que ninguna app
+                puede hacer sola.
+              </p>
+
+              <div className="reveal delay-3 flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4 mb-10">
+                <button
+                  id="aplicar"
+                  type="button"
+                  className="btn-metallic px-8 py-4 rounded-full text-white font-semibold tracking-wide"
+                  onClick={() => {
+                    setAgentModalOpen(true);
+                    trackEvent("cta_genesis_hero", { section: "hero" });
+                  }}
+                >
+                  DESCUBRE SI HYBRID ES PARA TI
+                </button>
+                <a
+                  href={APPLY_URL}
+                  className="btn-ghost px-8 py-4 rounded-full text-white font-semibold tracking-wide flex items-center justify-center gap-2"
+                  onClick={() => trackEvent("cta_apply_hero", { section: "hero", href: APPLY_URL })}
+                  target={APPLY_URL.startsWith("http") ? "_blank" : undefined}
+                  rel={APPLY_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+                >
+                  Ya estoy listo - Aplicar directo
+                </a>
+              </div>
+
+              <div className="reveal delay-3 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto lg:mx-0 text-left">
+                <div className="glass-panel kpi-card rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-2xl font-semibold font-space">91%</span>
+                    <span className="text-lg">🔥</span>
+                  </div>
+                  <p className="text-[11px] uppercase tracking-wider text-[#A78BFA] font-medium mb-0.5">Adherencia al programa</p>
+                  <p className="text-xs text-slate-300">Completan sus sesiones cada semana - sin vivir en el gym</p>
+                </div>
+                <div className="glass-panel kpi-card rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-2xl font-semibold font-space">12+</span>
+                    <Dumbbell className="w-5 h-5 text-[#A78BFA]" />
+                  </div>
+                  <p className="text-[11px] uppercase tracking-wider text-[#A78BFA] font-medium mb-0.5">Semanas de Season</p>
+                  <p className="text-xs text-slate-300">Semanas consecutivas de progreso medible</p>
+                </div>
+                <div className="glass-panel kpi-card kpi-card-health rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-2xl font-semibold font-space">Semana 2</span>
+                    <Activity className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <p className="text-[11px] uppercase tracking-wider text-emerald-400 font-medium mb-0.5">Primeros datos medibles</p>
+                  <p className="text-xs text-slate-300">El primer cambio que notas: energia y claridad</p>
+                </div>
+              </div>
+
+              <p className="reveal delay-3 season-caption font-space mt-6 mx-auto lg:mx-0">
+                12 semanas. 4 checkpoints. Progreso que se mide, no que se promete.
+              </p>
+            </div>
+
+            <article className="reveal delay-2 glass-panel rounded-2xl p-3 sm:p-4 border border-white/10">
+              <div className="relative overflow-hidden rounded-xl border border-white/10 aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
+                <Image
+                  src={VISUAL_ASSETS.diagnosticTraining}
+                  alt="Sesion HYBRID enfocada en fuerza funcional y composicion corporal"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 44vw"
+                  className="object-cover object-[center_28%]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/35 to-black/80" />
+                <div className="absolute top-3 left-3 right-3 flex items-center justify-between text-[11px]">
+                  <span className="rounded-full px-2.5 py-1 border border-[#6D00FF]/45 bg-[#6D00FF]/15 text-[#d6c8ff]">
+                    Performance IA
+                  </span>
+                  <span className="rounded-full px-2.5 py-1 border border-emerald-400/45 bg-emerald-400/15 text-emerald-200">
+                    Salud muscular
+                  </span>
+                </div>
+                <div className="absolute left-4 right-4 bottom-4">
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-slate-200 mb-2">Sesion real HYBRID</p>
+                  <p className="text-lg sm:text-xl text-white font-semibold leading-tight mb-3">
+                    Entrenamiento inteligente para fuerza, composicion y longevidad.
+                  </p>
+                  <a
+                    href={VSL_URL}
+                    className="inline-flex items-center gap-2 btn-metallic rounded-full px-4 py-2 text-xs font-semibold"
+                    onClick={() => trackEvent("vsl_play", { section: "hero_media", href: VSL_URL })}
+                    target={VSL_URL.startsWith("http") ? "_blank" : undefined}
+                    rel={VSL_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+                  >
+                    <Play className="w-3.5 h-3.5" />
+                    Ver como funciona HYBRID
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
         </section>
 
         <section className="section-tone section-tone-soft max-w-5xl mx-auto px-4 sm:px-6 mb-24">
@@ -467,10 +511,6 @@ export default function HomePage() {
 
         <section id="secretos" className="section-anchor section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="text-center mb-10 reveal">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-slate-400 mb-2">
-              <Route className="w-3.5 h-3.5 text-[#c6b2ff]" />
-              Cambio de creencias
-            </p>
             <h2 className="text-3xl sm:text-4xl font-semibold">Lo que nadie te dice (y que cambia todo)</h2>
           </div>
 
@@ -549,7 +589,7 @@ export default function HomePage() {
         <section id="que-es" className="section-anchor section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="grid lg:grid-cols-2 gap-6 items-stretch">
             <article className="reveal glass-panel card-mechanism rounded-2xl p-8 sm:p-10">
-              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-3">El sistema</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-3">Arquitectura de tu progreso</p>
               <h2 className="text-3xl sm:text-4xl font-semibold mb-4">
                 HYBRID: el primer sistema donde IA y coach humano trabajan juntos para ti.
               </h2>
@@ -562,13 +602,31 @@ export default function HomePage() {
                 tomar mejores decisiones sobre tu cuerpo.
               </p>
 
-              <div className="bg-black/30 p-4 rounded-lg border border-white/10 font-mono text-sm text-shield">
-                <p className="text-xs uppercase tracking-[0.16em] text-slate-300 mb-3">Mini demo contextual</p>
-                <pre>
-                  <code className="text-sm text-slate-200 leading-relaxed whitespace-pre-wrap">
-                    {"// Input: 37 anos - 3 dias/semana - 45 min - sueno 6h - estres alto\n// GENESIS output:\n-> Season 12 semanas: fuerza funcional + recomposicion\n-> Semana 1: 3 sesiones (full body, 40 min adaptadas)\n-> Nutricion: protocolo flexible, 4 comidas, sin restricciones extremas\n-> Alerta: sueno bajo -> priorizar recuperacion sobre volumen\n-> Checkpoint semana 1: ajustar segun respuesta real"}
-                  </code>
-                </pre>
+              <div className="bg-black/30 p-4 rounded-lg border border-white/10 text-shield">
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-300 mb-3 font-mono-tech">Semana tipo HYBRID</p>
+                <div className="space-y-2.5 text-sm">
+                  <div className="flex items-center justify-between gap-3 border border-white/10 rounded-lg px-3 py-2 bg-white/[0.02]">
+                    <p className="text-slate-100 font-medium">Dia 1 - Fuerza base</p>
+                    <span className="text-[11px] rounded-full px-2 py-1 border border-[#6D00FF]/35 bg-[#6D00FF]/12 text-[#d8cbff]">
+                      Pierna + core
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 border border-white/10 rounded-lg px-3 py-2 bg-white/[0.02]">
+                    <p className="text-slate-100 font-medium">Dia 3 - Upper + condicion</p>
+                    <span className="text-[11px] rounded-full px-2 py-1 border border-[#6D00FF]/35 bg-[#6D00FF]/12 text-[#d8cbff]">
+                      40 minutos
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 border border-white/10 rounded-lg px-3 py-2 bg-white/[0.02]">
+                    <p className="text-slate-100 font-medium">Dia 5 - Full body + potencia</p>
+                    <span className="text-[11px] rounded-full px-2 py-1 border border-emerald-400/35 bg-emerald-400/12 text-emerald-200">
+                      Ajuste semanal
+                    </span>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-300 mt-3 leading-relaxed">
+                  Si duermes mal o sube el estres, ajustamos volumen y recuperacion para mantener progreso sin romperte.
+                </p>
               </div>
               <div className="mt-5 support-media aspect-video rounded-xl overflow-hidden border border-white/10">
                 <Image
@@ -639,25 +697,25 @@ export default function HomePage() {
               <Check className="w-3.5 h-3.5 text-emerald-300" />
               Proceso
             </p>
-            <h2 className="text-3xl sm:text-4xl font-semibold">3 pasos para arrancar. Menos de 5 minutos.</h2>
+            <h2 className="text-3xl sm:text-4xl font-semibold">3 pasos para activar tu transformacion fisica.</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-5">
             {[
               {
                 n: "1",
-                title: "Habla con GENESIS (2 min)",
-                text: "GENESIS te hace las preguntas correctas, evalua si HYBRID es para ti, y te dice exactamente cual es tu siguiente paso. Sin compromiso.",
+                title: "Evaluamos tu punto de partida",
+                text: "GENESIS diagnostica tu contexto real: fuerza base, energia, disponibilidad y objetivo fisico. En 2 minutos defines un punto de arranque claro.",
               },
               {
                 n: "2",
-                title: "Arranca tu Season esta semana",
-                text: "Kickstart guiado de 7 dias. Plan de entrenamiento, nutricion y checkpoints listos. Tu unica tarea: ejecutar y reportar como te sientes.",
+                title: "Programamos tu semana real",
+                text: "Recibes tus 3 sesiones y enfoque nutricional segun tu vida real: dias disponibles, tiempo por sesion y nivel actual. Sin plantillas genericas.",
               },
               {
                 n: "3",
-                title: "Mide tu progreso cada semana",
-                text: "Fuerza, medidas, energia, adherencia. En semana 2 ya tienes datos reales. En semana 4, evidencia. En semana 12, una transformacion que se mide.",
+                title: "Ajustamos segun rendimiento",
+                text: "Cada semana ajustamos cargas, volumen y recuperacion con tus datos reales. Asi progresas aunque haya estres, viajes o semanas imperfectas.",
               },
             ].map((step, idx) => (
               <article key={step.n} className={`reveal glass-panel card-mechanism rounded-2xl p-6 sm:p-7 ${idx === 1 ? "delay-1" : ""} ${idx === 2 ? "delay-2" : ""}`}>
@@ -703,6 +761,138 @@ export default function HomePage() {
                 </p>
               </div>
             </article>
+          </div>
+        </section>
+
+        <section className="section-tone section-tone-soft max-w-6xl mx-auto px-4 sm:px-6 mb-24">
+          <div className="reveal text-center mb-10">
+            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">
+              <Dumbbell className="w-3.5 h-3.5 text-[#A78BFA]" />
+              Semana real HYBRID
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-semibold">Asi se ve una semana que transforma tu fisico</h2>
+            <p className="text-slate-300 mt-3 max-w-2xl mx-auto">
+              Nada de rutinas infinitas. 3 sesiones bien programadas, ajustes por datos y foco total en fuerza,
+              composicion y rendimiento real.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-[1.08fr_0.92fr] gap-5">
+            <article className="reveal glass-panel card-mechanism rounded-2xl p-6 sm:p-7 border border-[#6D00FF]/25">
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <h3 className="font-space text-2xl font-semibold">Plan semanal de ejecucion</h3>
+                <span className="text-[11px] rounded-full px-2.5 py-1 border border-emerald-400/35 bg-emerald-400/12 text-emerald-200">
+                  3 dias / 45 min
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  {
+                    day: "Dia 1",
+                    title: "Fuerza base",
+                    detail: "Sentadilla + empuje + core anti-rotacion",
+                    tag: "Carga progresiva",
+                    tone: "violet",
+                  },
+                  {
+                    day: "Dia 3",
+                    title: "Upper + condicion",
+                    detail: "Tiron vertical + press inclinado + carries",
+                    tag: "Densidad metabolica",
+                    tone: "violet",
+                  },
+                  {
+                    day: "Dia 5",
+                    title: "Full body + potencia",
+                    detail: "Patrones globales + finisher de potencia",
+                    tag: "Recomposicion activa",
+                    tone: "emerald",
+                  },
+                ].map((item, idx) => (
+                  <div
+                    key={item.day}
+                    className={`rounded-xl border p-4 bg-white/[0.02] ${
+                      item.tone === "emerald" ? "border-emerald-400/25" : "border-[#6D00FF]/25"
+                    } ${idx === 1 ? "reveal delay-1" : ""} ${idx === 2 ? "reveal delay-2" : ""}`}
+                  >
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <p className="text-sm font-semibold text-white">
+                        {item.day} - {item.title}
+                      </p>
+                      <span
+                        className={`text-[10px] uppercase tracking-[0.12em] px-2 py-1 rounded-full border ${
+                          item.tone === "emerald"
+                            ? "text-emerald-200 border-emerald-400/35 bg-emerald-400/12"
+                            : "text-[#d9ccff] border-[#6D00FF]/35 bg-[#6D00FF]/12"
+                        }`}
+                      >
+                        {item.tag}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-300">{item.detail}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-xs text-slate-300 mt-4 leading-relaxed">
+                Si tu sueno cae o tu estres sube, HYBRID ajusta volumen e intensidad para que sigas progresando sin
+                perder traccion.
+              </p>
+            </article>
+
+            <div className="space-y-5">
+              <article className="reveal delay-1 glass-panel card-mechanism rounded-2xl p-6 border border-emerald-400/25">
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-300 mb-3">Pruebas fisicas clave</p>
+                <div className="space-y-3 text-sm">
+                  {[
+                    { label: "Sentadilla goblet", base: "24 kg x 8", target: "32 kg x 8" },
+                    { label: "Push-up controlada", base: "12 reps", target: "22 reps" },
+                    { label: "Farmer carry", base: "20 m", target: "40 m" },
+                  ].map((test) => (
+                    <div key={test.label} className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2.5">
+                      <p className="text-slate-100 font-medium mb-1">{test.label}</p>
+                      <p className="text-xs text-slate-300">
+                        Base: <span className="text-slate-100">{test.base}</span>
+                        <span className="mx-2 text-slate-500">→</span>
+                        Objetivo: <span className="text-emerald-200">{test.target}</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </article>
+
+              <article className="reveal delay-2 glass-panel card-mechanism rounded-2xl p-6 border border-[#6D00FF]/25">
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-300 mb-3">Scoreboard semanal</p>
+                <div className="space-y-3">
+                  {[
+                    { label: "Sesiones completadas", value: "3/3", width: "100%", tone: "violet" },
+                    { label: "Carga total de trabajo", value: "+11%", width: "78%", tone: "violet" },
+                    { label: "Energia reportada", value: "8.2/10", width: "82%", tone: "emerald" },
+                  ].map((kpi) => (
+                    <div key={kpi.label}>
+                      <div className="flex items-center justify-between text-xs mb-1.5">
+                        <p className="text-slate-300">{kpi.label}</p>
+                        <p className={`font-semibold ${kpi.tone === "emerald" ? "text-emerald-300" : "text-[#d8caff]"}`}>{kpi.value}</p>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${
+                            kpi.tone === "emerald"
+                              ? "bg-gradient-to-r from-emerald-500 to-emerald-300"
+                              : "bg-gradient-to-r from-[#6D00FF] to-[#A78BFA]"
+                          }`}
+                          style={{ width: kpi.width }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-slate-300 mt-4 leading-relaxed">
+                  Menos percepcion. Mas datos fisicos y decisiones de entrenamiento basadas en resultados.
+                </p>
+              </article>
+            </div>
           </div>
         </section>
 
