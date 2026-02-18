@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   Activity,
   Check,
+  Dumbbell,
   Hexagon,
   Loader,
   Menu,
@@ -14,6 +15,7 @@ import {
   RefreshCw,
   Route,
   ShieldCheck,
+  Target,
   X,
 } from "lucide-react";
 
@@ -41,10 +43,15 @@ const COHORT_SPOTS_FILLED = 8;
 const COHORT_SPOTS_TOTAL = 20;
 const cohortAvailabilityText = `${COHORT_SPOTS_FILLED} de ${COHORT_SPOTS_TOTAL} cupos disponibles`;
 const VISUAL_ASSETS = {
-  diagnosticTraining: "/images/brand/genesis-duo.png",
-  diagnosticRecovery: "/images/brand/genesis-solo.png",
-  processContext: "/images/brand/genesis-duo.png",
-  videoThumbnail: "/images/brand/genesis-duo.png",
+  diagnosticTraining: "/images/brand/genesis-coaching-squat.png",
+  diagnosticRecovery: "/images/brand/gym-premium-empty.png",
+  videoThumbnail: "/images/brand/genesis-hologram-panels.png",
+  mechanismContext: "/images/brand/genesis-gym-data.png",
+  processAdaptive: "/images/brand/genesis-programming.png",
+  processContext: "/images/brand/genesis-gym-team.png",
+  offerFounder: "/images/brand/aldo-genesis-portrait.png",
+  genesisAvatar: "/images/brand/genesis-solo.png",
+  ctaBackground: "/images/brand/genesis-coaching-squat.png",
 } as const;
 
 const faqList = [
@@ -385,35 +392,31 @@ export default function HomePage() {
               <article className="support-media">
                 <Image
                   src={VISUAL_ASSETS.diagnosticTraining}
-                  alt="Slot visual de entrenamiento funcional real"
+                  alt="GENESIS analizando biomecanica durante sesion de fuerza"
                   fill
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover"
                 />
-                <span className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/45 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-slate-100">
-                  Slot foto 01
-                </span>
                 <div className="support-media-overlay" />
                 <div className="support-media-copy">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Enfoque fitness</p>
-                  <p className="text-sm text-white font-medium">Sesion real de fuerza adaptada a una agenda exigente</p>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Sistema activo</p>
+                  <p className="text-sm text-white font-medium">
+                    GENESIS analizando biomecanica en tiempo real durante tu sesion
+                  </p>
                 </div>
               </article>
               <article className="support-media">
                 <Image
                   src={VISUAL_ASSETS.diagnosticRecovery}
-                  alt="Slot visual de recuperacion inteligente"
+                  alt="Gym premium adaptado a tu vida real"
                   fill
                   sizes="(max-width: 768px) 100vw, 40vw"
-                  className="object-cover object-[62%_center]"
+                  className="object-cover object-center"
                 />
-                <span className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/45 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-slate-100">
-                  Slot foto 02
-                </span>
                 <div className="support-media-overlay" />
                 <div className="support-media-copy">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Vida real</p>
-                  <p className="text-sm text-white font-medium">Recuperacion inteligente para sostener consistencia</p>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Tu espacio</p>
+                  <p className="text-sm text-white font-medium">Tu espacio. Tu ritmo. Sin reglas genericas.</p>
                 </div>
               </article>
             </div>
@@ -451,7 +454,7 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-3 gap-5">
             <article className="reveal glass-panel card-insight rounded-2xl p-7 border border-white/10">
               <div className="w-11 h-11 rounded-xl bg-[#6D00FF]/18 flex items-center justify-center mb-5">
-                <Activity className="w-5 h-5 text-[#c6b2ff]" />
+                <Dumbbell className="w-5 h-5 text-[#c6b2ff]" />
               </div>
               <h3 className="font-space text-2xl font-semibold mb-3">El musculo no es vanidad. Es tu seguro de vida.</h3>
               <p className="text-slate-200 text-sm leading-relaxed mb-4">
@@ -468,7 +471,7 @@ export default function HomePage() {
 
             <article className="reveal delay-1 glass-panel card-insight rounded-2xl p-7 border border-white/10">
               <div className="w-11 h-11 rounded-xl bg-[#6D00FF]/18 flex items-center justify-center mb-5">
-                <Route className="w-5 h-5 text-[#c6b2ff]" />
+                <Target className="w-5 h-5 text-[#c6b2ff]" />
               </div>
               <h3 className="font-space text-2xl font-semibold mb-3">No es falta de disciplina. Es falta de sistema.</h3>
               <p className="text-slate-200 text-sm leading-relaxed mb-4">
@@ -526,21 +529,32 @@ export default function HomePage() {
                   </code>
                 </pre>
               </div>
+              <div className="mt-5 support-media rounded-xl overflow-hidden border border-white/10 min-h-[140px]">
+                <Image
+                  src={VISUAL_ASSETS.mechanismContext}
+                  alt="GENESIS monitoreando sesion en gym con datos holograficos"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-cover"
+                />
+                <div className="support-media-overlay" />
+                <div className="support-media-copy">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">En la practica</p>
+                  <p className="text-sm text-white font-medium">Asi se ve el sistema funcionando en tu sesion real</p>
+                </div>
+              </div>
             </article>
 
             <article id="video" className="reveal delay-1 glass-panel card-mechanism rounded-2xl p-5 sm:p-6 flex flex-col">
               <div className="brand-photo-frame relative rounded-xl overflow-hidden border border-white/10 bg-black/30 min-h-[260px] sm:min-h-[320px] flex items-center justify-center">
                 <Image
                   src={VISUAL_ASSETS.videoThumbnail}
-                  alt="Thumbnail VSL HYBRID (listo para reemplazar por footage fitness real)"
+                  alt="GENESIS mostrando paneles holograficos de analisis fitness"
                   fill
                   sizes="(max-width: 768px) 100vw, 45vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/45 to-black/35" />
-                <span className="absolute top-3 left-3 rounded-full border border-white/25 bg-black/45 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-slate-100">
-                  Slot video VSL
-                </span>
                 <p className="absolute left-4 right-4 bottom-4 text-sm text-slate-100 text-left">
                   Video: como funciona HYBRID en 12 minutos
                 </p>
@@ -618,33 +632,34 @@ export default function HomePage() {
           <div className="reveal mt-6 grid sm:grid-cols-2 gap-4">
             <article className="support-media brand-photo-frame min-h-[210px]">
               <Image
-                src="/images/brand/genesis-solo.png"
-                alt="Genesis analizando progreso adaptativo"
+                src={VISUAL_ASSETS.processAdaptive}
+                alt="GENESIS disenando periodizacion personalizada"
                 fill
                 sizes="(max-width: 768px) 100vw, 42vw"
-                className="object-cover object-[60%_center] sm:object-center"
+                className="object-cover"
               />
               <div className="support-media-overlay brand-photo-overlay" />
               <div className="support-media-copy">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-100 mb-1">Sistema adaptativo</p>
-                <p className="text-sm text-white font-medium">Inteligencia contextual para ajustar tu dosis semanal</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-100 mb-1">Programacion inteligente</p>
+                <p className="text-sm text-white font-medium">
+                  GENESIS disenando tu periodizacion basada en datos reales
+                </p>
               </div>
             </article>
             <article className="support-media min-h-[210px]">
               <Image
                 src={VISUAL_ASSETS.processContext}
-                alt="Slot visual de entrenamiento y progreso en contexto real"
+                alt="Comunidad NGX en gym futurista con sistema de datos integrado"
                 fill
                 sizes="(max-width: 768px) 100vw, 42vw"
                 className="object-cover"
               />
-              <span className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/45 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-slate-100">
-                Slot foto 03
-              </span>
               <div className="support-media-overlay" />
               <div className="support-media-copy">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Adaptacion</p>
-                <p className="text-sm text-white font-medium">Plan vivo que responde a tu energia y contexto real</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Comunidad + Sistema</p>
+                <p className="text-sm text-white font-medium">
+                  No estas solo. Tu equipo y la tecnologia trabajan contigo.
+                </p>
               </div>
             </article>
           </div>
@@ -698,6 +713,27 @@ export default function HomePage() {
 
             <div className="accent-line mb-5" />
 
+            <div className="support-media rounded-xl overflow-hidden border border-white/10 min-h-[160px] mb-6">
+              <Image
+                src={VISUAL_ASSETS.offerFounder}
+                alt="Aldo y GENESIS - el equipo detras de tu Season"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-[50%_30%]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/80" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-slate-300 mb-1">
+                    El equipo detras de tu Season
+                  </p>
+                  <p className="text-lg text-white font-semibold">
+                    Aldo + GENESIS. Decisiones humanas + inteligencia artificial.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
                 <p className="text-sm text-slate-200 mt-2">
@@ -740,7 +776,6 @@ export default function HomePage() {
                   className="btn-metallic rounded-full px-6 py-3 text-sm font-semibold"
                   onClick={() => {
                     setAgentModalOpen(true);
-                    trackEvent("agent_open_click", { section: "agente" });
                     trackEvent("cta_genesis_agente", { section: "agente" });
                   }}
                 >
@@ -749,10 +784,7 @@ export default function HomePage() {
                 <a
                   href={SCHEDULE_URL}
                   className="btn-ghost rounded-full px-6 py-3 text-sm font-semibold"
-                  onClick={() => {
-                    trackEvent("agent_schedule_click", { section: "agente", href: SCHEDULE_URL });
-                    trackEvent("cta_schedule_agente", { section: "agente", href: SCHEDULE_URL });
-                  }}
+                  onClick={() => trackEvent("cta_schedule_agente", { section: "agente", href: SCHEDULE_URL })}
                   target={SCHEDULE_URL.startsWith("http") ? "_blank" : undefined}
                   rel={SCHEDULE_URL.startsWith("http") ? "noopener noreferrer" : undefined}
                 >
@@ -821,7 +853,18 @@ export default function HomePage() {
         </section>
 
         <section className="section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-12">
-          <article className="reveal glass-panel card-offer rounded-2xl p-8 sm:p-10 text-center">
+          <article className="reveal glass-panel card-offer rounded-2xl p-8 sm:p-10 text-center relative overflow-hidden">
+            <div className="absolute inset-0 opacity-[0.08]">
+              <Image
+                src={VISUAL_ASSETS.ctaBackground}
+                alt=""
+                fill
+                className="object-cover"
+                aria-hidden="true"
+              />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
+            <div className="relative z-10">
             <h2 className="text-3xl sm:text-5xl font-semibold mb-3">No necesitas mas informacion.</h2>
             <p className="text-xl text-slate-200 mb-3">
               Necesitas un sistema que funcione con tu vida real. Y 2 minutos con GENESIS para saber si es este.
@@ -851,6 +894,7 @@ export default function HomePage() {
               >
                 Aplicar directamente
               </a>
+            </div>
             </div>
           </article>
         </section>
@@ -926,7 +970,18 @@ export default function HomePage() {
         >
           <div className="glass-panel rounded-2xl w-full max-w-2xl p-5 sm:p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-space text-xl font-semibold">GENESIS - NGX</h3>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-[#6D00FF]/40 flex-shrink-0">
+                  <Image
+                    src={VISUAL_ASSETS.genesisAvatar}
+                    alt="GENESIS"
+                    width={40}
+                    height={40}
+                    className="object-cover object-[50%_20%]"
+                  />
+                </div>
+                <h3 className="font-space text-xl font-semibold">GENESIS - NGX</h3>
+              </div>
               <button
                 type="button"
                 className="btn-ghost rounded-lg p-2"
@@ -954,11 +1009,7 @@ export default function HomePage() {
               <a
                 href={SCHEDULE_URL}
                 className="btn-ghost rounded-full px-5 py-2.5 text-sm font-semibold"
-                onClick={() => {
-                  trackEvent("agent_schedule_modal", { section: "agent_modal", href: SCHEDULE_URL });
-                  trackEvent("cta_schedule_agent_modal", { section: "agent_modal", href: SCHEDULE_URL });
-                  trackEvent("cta_team_contact", { section: "agent_modal", href: SCHEDULE_URL });
-                }}
+                onClick={() => trackEvent("cta_schedule_agent_modal", { section: "agent_modal", href: SCHEDULE_URL })}
               >
                 Prefiero hablar con una persona
               </a>
