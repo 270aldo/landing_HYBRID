@@ -259,7 +259,7 @@ header nav a,
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
-  min-height: 180px;
+  /* altura definida por aspect-ratio en cada instancia */
 }
 
 .support-media img {
@@ -359,6 +359,41 @@ header nav a,
   }
   50% {
     transform: translateY(-7px);
+  }
+}
+
+/* ─── Emerald health accent ─── */
+.kpi-card-health {
+  transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+}
+
+.kpi-card-health:hover {
+  transform: translateY(-2px);
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 18px 38px -24px rgba(16, 185, 129, 0.7);
+}
+
+.stat-callout-violet {
+  text-shadow: 0 4px 20px rgba(109, 0, 255, 0.4);
+}
+
+.stat-callout-emerald {
+  text-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+}
+
+@media (max-width: 389px) {
+  #floatingAgentBtn {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 999px;
+    justify-content: center;
+    gap: 0;
+  }
+
+  #floatingAgentBtn .floating-agent-label {
+    display: none;
   }
 }
 
