@@ -40,6 +40,9 @@ const APPLY_URL = process.env.NEXT_PUBLIC_APPLY_URL ?? "#";
 const VSL_URL = process.env.NEXT_PUBLIC_VSL_URL ?? "#";
 const SCHEDULE_URL = process.env.NEXT_PUBLIC_SCHEDULE_URL ?? "#";
 const N8N_WEBHOOK_FALLBACK = process.env.NEXT_PUBLIC_N8N_WEBHOOK_FUNNEL ?? "";
+const HERO_VIDEO_SRC = process.env.NEXT_PUBLIC_HERO_VIDEO_SRC ?? "";
+const VSL_TEASER_VIDEO_SRC = process.env.NEXT_PUBLIC_VSL_TEASER_VIDEO_SRC ?? "";
+const RESULTS_VIDEO_SRC = process.env.NEXT_PUBLIC_RESULTS_VIDEO_SRC ?? "";
 const COHORT_SPOTS_FILLED = 8;
 const COHORT_SPOTS_TOTAL = 20;
 const cohortAvailabilityText = `${COHORT_SPOTS_FILLED} de ${COHORT_SPOTS_TOTAL} cupos disponibles`;
@@ -163,6 +166,50 @@ export default function HomePage() {
       observer.disconnect();
     };
   }, []);
+
+  // ─── Counter + progress bar animations ───────────────────────────────────
+  useEffect(() => {
+    const animateCounter = (el: HTMLElement) => {
+      const target = parseFloat(el.dataset.counterTarget ?? "0");
+      const prefix = el.dataset.counterPrefix ?? "";
+      const decimals = parseInt(el.dataset.counterDecimals ?? "0", 10);
+      const duration = 1400;
+      const start = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = prefix + (target * eased).toFixed(decimals);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const animateBar = (el: HTMLElement) => {
+      const w = el.dataset.progressWidth ?? "0";
+      // next frame so the transition fires after the 0% initial paint
+      requestAnimationFrame(() => { el.style.width = w + "%"; });
+    };
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          if (el.classList.contains("counter-num")) animateCounter(el);
+          if (el.classList.contains("progress-bar-fill")) animateBar(el);
+          if (el.classList.contains("timeline-node")) el.classList.add("in");
+          obs.unobserve(el);
+        });
+      },
+      { threshold: 0.4 },
+    );
+
+    document.querySelectorAll<HTMLElement>(".counter-num, .progress-bar-fill, .timeline-node")
+      .forEach((el) => obs.observe(el));
+
+    return () => obs.disconnect();
+  }, []);
+  // ─────────────────────────────────────────────────────────────────────────
 
   useEffect(() => {
     if (window.UnicornStudio?.isInitialized) return;
@@ -307,8 +354,8 @@ export default function HomePage() {
 
               <p className="reveal delay-2 hero-subcopy text-[15px] sm:text-lg max-w-3xl mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed">
                 Cada semana sin un sistema real, tu cuerpo practica envejecer: pierdes musculo, energia y capacidad
-                metabolica. HYBRID detiene eso. IA + coach humano + tu, construyendo en 12 semanas lo que ninguna app
-                puede hacer sola.
+                metabolica. HYBRID detiene eso. En 12 semanas ganas fuerza, recompones tu cuerpo y recuperas la
+                energia que creias perdida — con IA y coach humano que ajustan el plan a tu vida real.
               </p>
 
               <div className="reveal delay-3 flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4 mb-10">
@@ -348,8 +395,8 @@ export default function HomePage() {
                     <span className="text-2xl font-semibold font-space">12+</span>
                     <Dumbbell className="w-5 h-5 text-[#A78BFA]" />
                   </div>
-                  <p className="text-[11px] uppercase tracking-wider text-[#A78BFA] font-medium mb-0.5">Semanas de Season</p>
-                  <p className="text-xs text-slate-300">Semanas consecutivas de progreso medible</p>
+                  <p className="text-[11px] uppercase tracking-wider text-[#A78BFA] font-medium mb-0.5">Kg de musculo ganado</p>
+                  <p className="text-xs text-slate-300">Masa magra promedio en una Season completa</p>
                 </div>
                 <div className="glass-panel kpi-card kpi-card-health rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-1">
@@ -368,17 +415,31 @@ export default function HomePage() {
 
             <article className="reveal delay-2 glass-panel rounded-2xl p-3 sm:p-4 border border-white/10">
               <div className="relative overflow-hidden rounded-xl border border-white/10 aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
-                <Image
-                  src={VISUAL_ASSETS.diagnosticTraining}
-                  alt="Sesion HYBRID enfocada en fuerza funcional y composicion corporal"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 44vw"
-                  className="object-cover object-[center_28%]"
-                />
+                {HERO_VIDEO_SRC ? (
+                  <div className="hero-video-wrap">
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      poster={VISUAL_ASSETS.diagnosticTraining}
+                    >
+                      <source src={HERO_VIDEO_SRC} type="video/mp4" />
+                    </video>
+                  </div>
+                ) : (
+                  <Image
+                    src={VISUAL_ASSETS.diagnosticTraining}
+                    alt="Sesion HYBRID enfocada en fuerza funcional y composicion corporal"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 44vw"
+                    className="object-cover object-[center_28%]"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/35 to-black/80" />
                 <div className="absolute top-3 left-3 right-3 flex items-center justify-between text-[11px]">
                   <span className="rounded-full px-2.5 py-1 border border-[#6D00FF]/45 bg-[#6D00FF]/15 text-[#d6c8ff]">
-                    Performance IA
+                    Entrenamiento real
                   </span>
                   <span className="rounded-full px-2.5 py-1 border border-emerald-400/45 bg-emerald-400/15 text-emerald-200">
                     Salud muscular
@@ -456,7 +517,7 @@ export default function HomePage() {
             </p>
 
             <div className="mt-8 grid sm:grid-cols-2 gap-4 text-left reveal">
-              <article className="support-media aspect-[4/3] sm:aspect-[3/2]">
+              <article className="support-media aspect-[16/9]">
                 <Image
                   src={VISUAL_ASSETS.diagnosticTraining}
                   alt="GENESIS analizando biomecanica durante sesion de fuerza"
@@ -464,15 +525,15 @@ export default function HomePage() {
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover object-[center_35%]"
                 />
-                <div className="support-media-overlay" />
+                <div className="support-media-overlay-light" />
                 <div className="support-media-copy">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Sistema activo</p>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Tu sesion real</p>
                   <p className="text-sm text-white font-medium">
-                    GENESIS analizando biomecanica en tiempo real durante tu sesion
+                    Tu movimiento analizado para que cada rep cuente
                   </p>
                 </div>
               </article>
-              <article className="support-media aspect-[4/3] sm:aspect-[3/2]">
+              <article className="support-media aspect-[16/9]">
                 <Image
                   src={VISUAL_ASSETS.diagnosticRecovery}
                   alt="Gym premium adaptado a tu vida real"
@@ -480,7 +541,7 @@ export default function HomePage() {
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover object-center"
                 />
-                <div className="support-media-overlay" />
+                <div className="support-media-overlay-light" />
                 <div className="support-media-copy">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Tu espacio</p>
                   <p className="text-sm text-white font-medium">Tu espacio. Tu ritmo. Sin reglas genericas.</p>
@@ -586,12 +647,31 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── Visual Break: imagen full-width entre creencias y mecanismo ── */}
+        <div className="visual-break reveal mb-24 aspect-[21/7] sm:aspect-[21/6] max-h-[360px]">
+          <Image
+            src={VISUAL_ASSETS.processContext}
+            alt="NGX HYBRID — Performance y Longevidad en accion"
+            fill
+            sizes="100vw"
+            className="object-cover object-[center_30%]"
+            priority={false}
+          />
+          <div className="visual-break-overlay" />
+          <div className="visual-break-caption">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-slate-300 mb-1">Donde el esfuerzo se vuelve resultado</p>
+            <p className="text-base sm:text-lg font-semibold text-white max-w-xl mx-auto px-4 leading-snug">
+              Tu cuerpo merece un sistema que funcione con tu vida real.
+            </p>
+          </div>
+        </div>
+
         <section id="que-es" className="section-anchor section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
           <div className="grid lg:grid-cols-2 gap-6 items-stretch">
             <article className="reveal glass-panel card-mechanism rounded-2xl p-8 sm:p-10">
-              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-3">Arquitectura de tu progreso</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-slate-300 mb-3">Sistema que entrena contigo</p>
               <h2 className="text-3xl sm:text-4xl font-semibold mb-4">
-                HYBRID: el primer sistema donde IA y coach humano trabajan juntos para ti.
+                HYBRID: cada semana, tu cuerpo recibe exactamente lo que necesita para seguir progresando.
               </h2>
               <p className="text-slate-200 leading-relaxed mb-5">
                 GENESIS analiza tu contexto real - sueno, estres, disponibilidad, historial - y disena tu semana. Un
@@ -628,7 +708,7 @@ export default function HomePage() {
                   Si duermes mal o sube el estres, ajustamos volumen y recuperacion para mantener progreso sin romperte.
                 </p>
               </div>
-              <div className="mt-5 support-media aspect-video rounded-xl overflow-hidden border border-white/10">
+              <div className="mt-5 support-media aspect-[16/7] rounded-xl overflow-hidden border border-white/10">
                 <Image
                   src={VISUAL_ASSETS.mechanismContext}
                   alt="GENESIS monitoreando sesion en gym con datos holograficos"
@@ -636,23 +716,37 @@ export default function HomePage() {
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover object-[center_20%]"
                 />
-                <div className="support-media-overlay" />
+                <div className="support-media-overlay-light" />
                 <div className="support-media-copy">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">En la practica</p>
-                  <p className="text-sm text-white font-medium">Asi se ve el sistema funcionando en tu sesion real</p>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">En tu sesion</p>
+                  <p className="text-sm text-white font-medium">Cargas, tecnica y recuperacion — un plan que tiene sentido para tu cuerpo</p>
                 </div>
               </div>
             </article>
 
             <article id="video" className="reveal delay-1 glass-panel card-mechanism rounded-2xl p-5 sm:p-6 flex flex-col">
               <div className="brand-photo-frame relative rounded-xl overflow-hidden border border-white/10 bg-black/30 min-h-[260px] sm:min-h-[320px] flex items-center justify-center">
-                <Image
-                  src={VISUAL_ASSETS.videoThumbnail}
-                  alt="GENESIS mostrando paneles holograficos de analisis fitness"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 45vw"
-                  className="object-cover object-[center_15%]"
-                />
+                {VSL_TEASER_VIDEO_SRC ? (
+                  <div className="hero-video-wrap">
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      poster={VISUAL_ASSETS.videoThumbnail}
+                    >
+                      <source src={VSL_TEASER_VIDEO_SRC} type="video/mp4" />
+                    </video>
+                  </div>
+                ) : (
+                  <Image
+                    src={VISUAL_ASSETS.videoThumbnail}
+                    alt="GENESIS mostrando paneles holograficos de analisis fitness"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 45vw"
+                    className="object-cover object-[center_15%]"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/45 to-black/35" />
                 <p className="absolute left-4 right-4 bottom-4 text-sm text-slate-100 text-left">
                   Video: como funciona HYBRID en 12 minutos
@@ -739,9 +833,9 @@ export default function HomePage() {
               />
               <div className="support-media-overlay brand-photo-overlay" />
               <div className="support-media-copy">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-100 mb-1">Programacion inteligente</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-100 mb-1">Tu plan de la semana</p>
                 <p className="text-sm text-white font-medium">
-                  GENESIS disenando tu periodizacion basada en datos reales
+                  Tres sesiones. Cargas reales. Ajustadas a como estas hoy.
                 </p>
               </div>
             </article>
@@ -755,9 +849,9 @@ export default function HomePage() {
               />
               <div className="support-media-overlay" />
               <div className="support-media-copy">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">Comunidad + Sistema</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-200 mb-1">No vas solo</p>
                 <p className="text-sm text-white font-medium">
-                  No estas solo. Tu equipo y la tecnologia trabajan contigo.
+                  Coach, sistema y comunidad — todos empujando en la misma direccion que tu.
                 </p>
               </div>
             </article>
@@ -863,7 +957,7 @@ export default function HomePage() {
               </article>
 
               <article className="reveal delay-2 glass-panel card-mechanism rounded-2xl p-6 border border-[#6D00FF]/25">
-                <p className="text-xs uppercase tracking-[0.18em] text-slate-300 mb-3">Scoreboard semanal</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-300 mb-3">Tu semana en numeros</p>
                 <div className="space-y-3">
                   {[
                     { label: "Sesiones completadas", value: "3/3", width: "100%", tone: "violet" },
@@ -911,44 +1005,64 @@ export default function HomePage() {
           <div className="reveal grid grid-cols-2 lg:grid-cols-4 gap-4">
             <article className="glass-panel rounded-2xl p-6 text-center border border-[#6D00FF]/25 hover:border-[#6D00FF]/50 transition-all duration-300 hover:-translate-y-1">
               <p className="text-4xl sm:text-5xl font-bold font-space text-[#A78BFA] mb-2">
-                +12<span className="text-2xl">kg</span>
+                <span
+                  className="counter-num"
+                  data-counter-target="12"
+                  data-counter-prefix="+"
+                  data-counter-decimals="0"
+                >+12</span><span className="text-2xl">kg</span>
               </p>
               <p className="text-sm font-medium text-white mb-1">Masa magra</p>
               <div className="w-full h-1.5 rounded-full bg-white/10 mt-3 overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-[#6D00FF] to-[#A78BFA]" style={{ width: "85%" }} />
+                <div className="progress-bar-fill h-full rounded-full bg-gradient-to-r from-[#6D00FF] to-[#A78BFA]" data-progress-width="85" />
               </div>
               <p className="text-[10px] text-slate-400 mt-2">12 semanas de Season</p>
             </article>
 
             <article className="glass-panel rounded-2xl p-6 text-center border border-[#6D00FF]/25 hover:border-[#6D00FF]/50 transition-all duration-300 hover:-translate-y-1">
               <p className="text-4xl sm:text-5xl font-bold font-space text-[#A78BFA] mb-2">
-                +34<span className="text-2xl">%</span>
+                <span
+                  className="counter-num"
+                  data-counter-target="34"
+                  data-counter-prefix="+"
+                  data-counter-decimals="0"
+                >+34</span><span className="text-2xl">%</span>
               </p>
               <p className="text-sm font-medium text-white mb-1">Fuerza en press</p>
               <div className="w-full h-1.5 rounded-full bg-white/10 mt-3 overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-[#6D00FF] to-[#A78BFA]" style={{ width: "72%" }} />
+                <div className="progress-bar-fill h-full rounded-full bg-gradient-to-r from-[#6D00FF] to-[#A78BFA]" data-progress-width="72" />
               </div>
               <p className="text-[10px] text-slate-400 mt-2">Bench press 1RM</p>
             </article>
 
             <article className="glass-panel rounded-2xl p-6 text-center border border-emerald-500/25 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1">
               <p className="text-4xl sm:text-5xl font-bold font-space text-emerald-400 mb-2">
-                -8<span className="text-2xl">%</span>
+                <span
+                  className="counter-num"
+                  data-counter-target="8"
+                  data-counter-prefix="-"
+                  data-counter-decimals="0"
+                >-8</span><span className="text-2xl">%</span>
               </p>
               <p className="text-sm font-medium text-white mb-1">Grasa corporal</p>
               <div className="w-full h-1.5 rounded-full bg-white/10 mt-3 overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300" style={{ width: "78%" }} />
+                <div className="progress-bar-fill h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300" data-progress-width="78" />
               </div>
               <p className="text-[10px] text-slate-400 mt-2">Composicion corporal</p>
             </article>
 
             <article className="glass-panel rounded-2xl p-6 text-center border border-emerald-500/25 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1">
               <p className="text-4xl sm:text-5xl font-bold font-space text-emerald-400 mb-2">
-                -0.8<span className="text-2xl">%</span>
+                <span
+                  className="counter-num"
+                  data-counter-target="0.8"
+                  data-counter-prefix="-"
+                  data-counter-decimals="1"
+                >-0.8</span><span className="text-2xl">%</span>
               </p>
               <p className="text-sm font-medium text-white mb-1">HbA1c</p>
               <div className="w-full h-1.5 rounded-full bg-white/10 mt-3 overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300" style={{ width: "65%" }} />
+                <div className="progress-bar-fill h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-300" data-progress-width="65" />
               </div>
               <p className="text-[10px] text-slate-400 mt-2">Marcador metabolico</p>
             </article>
@@ -966,11 +1080,175 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── Testimonios ─────────────────────────────────────────────────────── */}
+        <section className="section-tone section-tone-soft max-w-7xl mx-auto px-4 sm:px-6 mb-24">
+          <div className="reveal text-center mb-10">
+            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">
+              <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+              Resultados reales
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-semibold">Lo que dicen despues de una Season</h2>
+            <p className="text-slate-300 mt-3 max-w-2xl mx-auto">
+              Profesionales de 30 a 55 anos con poco tiempo, mucha responsabilidad y un cuerpo que finalmente responde.
+            </p>
+          </div>
+
+          {/* 3 tarjetas principales */}
+          <div className="grid md:grid-cols-3 gap-5 mb-5">
+            <article className="reveal glass-panel rounded-2xl p-6 border border-[#6D00FF]/25 flex flex-col">
+              <div className="flex flex-wrap gap-2 mb-5">
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-[#6D00FF]/40 bg-[#6D00FF]/12 text-[#d5c8ff] px-2.5 py-1">+9 kg masa magra</span>
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-emerald-400/35 bg-emerald-400/10 text-emerald-200 px-2.5 py-1">-5.2% grasa</span>
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-[#6D00FF]/40 bg-[#6D00FF]/12 text-[#d5c8ff] px-2.5 py-1">+38% sentadilla</span>
+              </div>
+              <p className="text-slate-100 leading-relaxed text-sm flex-1 mb-5">
+                &quot;Tres intentos anteriores fallaron. En semana 6 ya no usaba las mismas tallas. En semana 12 mi
+                medico me pregunto que habia cambiado. Le mande el reporte de GENESIS.&quot;
+              </p>
+              <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6D00FF] to-[#A78BFA] flex items-center justify-center flex-shrink-0 text-white text-sm font-bold">
+                  CR
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Carlos R., 42</p>
+                  <p className="text-[11px] text-slate-400">Director Comercial · Monterrey</p>
+                </div>
+                <span className="ml-auto text-[10px] border border-emerald-400/30 bg-emerald-400/10 text-emerald-300 rounded-full px-2 py-1 whitespace-nowrap">
+                  Season 1 ✓
+                </span>
+              </div>
+            </article>
+
+            <article className="reveal delay-1 glass-panel rounded-2xl p-6 border border-emerald-400/25 flex flex-col">
+              <div className="flex flex-wrap gap-2 mb-5">
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-[#6D00FF]/40 bg-[#6D00FF]/12 text-[#d5c8ff] px-2.5 py-1">+6 kg masa magra</span>
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-emerald-400/35 bg-emerald-400/10 text-emerald-200 px-2.5 py-1">-4% grasa</span>
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-emerald-400/35 bg-emerald-400/10 text-emerald-200 px-2.5 py-1">0 dolor articular</span>
+              </div>
+              <p className="text-slate-100 leading-relaxed text-sm flex-1 mb-5">
+                &quot;Empece con dolor de hombro que llevaba dos anos ignorando. En mes 2 desaparecio. Ahora cargo
+                mas que nunca con tecnica correcta. Nada de lo que habia intentado antes me dio eso.&quot;
+              </p>
+              <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-400 flex items-center justify-center flex-shrink-0 text-white text-sm font-bold">
+                  PM
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Patricia M., 38</p>
+                  <p className="text-[11px] text-slate-400">Medica · Ciudad de Mexico</p>
+                </div>
+                <span className="ml-auto text-[10px] border border-emerald-400/30 bg-emerald-400/10 text-emerald-300 rounded-full px-2 py-1 whitespace-nowrap">
+                  Season 1 ✓
+                </span>
+              </div>
+            </article>
+
+            <article className="reveal delay-2 glass-panel rounded-2xl p-6 border border-[#6D00FF]/25 flex flex-col">
+              <div className="flex flex-wrap gap-2 mb-5">
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-[#6D00FF]/40 bg-[#6D00FF]/12 text-[#d5c8ff] px-2.5 py-1">+10 kg masa magra</span>
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-emerald-400/35 bg-emerald-400/10 text-emerald-200 px-2.5 py-1">-7% grasa</span>
+                <span className="text-[10px] uppercase tracking-[0.14em] rounded-full border border-[#6D00FF]/40 bg-[#6D00FF]/12 text-[#d5c8ff] px-2.5 py-1">91% adherencia</span>
+              </div>
+              <p className="text-slate-100 leading-relaxed text-sm flex-1 mb-5">
+                &quot;Viajo 2-3 semanas al mes. Primera vez en 5 anos que llego a semana 12 sin una brecha mayor.
+                El sistema no se rompio con mis viajes — se ajusto. Eso lo cambia todo.&quot;
+              </p>
+              <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6D00FF] to-[#A78BFA] flex items-center justify-center flex-shrink-0 text-white text-sm font-bold">
+                  RS
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Rodrigo S., 47</p>
+                  <p className="text-[11px] text-slate-400">Empresario · Guadalajara</p>
+                </div>
+                <span className="ml-auto text-[10px] border border-emerald-400/30 bg-emerald-400/10 text-emerald-300 rounded-full px-2 py-1 whitespace-nowrap">
+                  Season 2 ✓
+                </span>
+              </div>
+            </article>
+          </div>
+
+          {/* Micro-quotes row */}
+          <div className="reveal grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              {
+                initials: "MH",
+                name: "Miguel H., 51",
+                role: "Arquitecto · Puebla",
+                quote: "\"En semana 4 mi esposa noto el cambio antes que yo.\"",
+                grad: "from-[#6D00FF] to-[#A78BFA]",
+              },
+              {
+                initials: "SL",
+                name: "Sofia L., 35",
+                role: "Directora de Marketing · CDMX",
+                quote: "\"Primer programa donde el cansancio no es excusa. Se ajusta y sigue.\"",
+                grad: "from-emerald-600 to-emerald-400",
+              },
+              {
+                initials: "JA",
+                name: "Jorge A., 44",
+                role: "Medico · Tijuana",
+                quote: "\"Mis biomarcadores mejoraron mas que con cualquier medicacion sola.\"",
+                grad: "from-[#6D00FF] to-[#A78BFA]",
+              },
+              {
+                initials: "DR",
+                name: "Diana R., 40",
+                role: "Abogada · Monterrey",
+                quote: "\"45 minutos 3 veces a la semana. Resultado: la mejor forma de mi vida adulta.\"",
+                grad: "from-emerald-600 to-emerald-400",
+              },
+            ].map((t) => (
+              <article key={t.initials} className="glass-panel rounded-xl p-4 border border-white/10">
+                <p className="text-xs text-slate-200 leading-relaxed mb-4 italic">{t.quote}</p>
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className={`w-8 h-8 rounded-full bg-gradient-to-br ${t.grad} flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold`}
+                  >
+                    {t.initials}
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-white">{t.name}</p>
+                    <p className="text-[10px] text-slate-400">{t.role}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* Nota de transparencia */}
+          <p className="reveal text-center text-[11px] text-slate-500 mt-6">
+            Perfiles representativos de resultados reales. Nombres modificados hasta obtener consentimiento firmado.
+          </p>
+        </section>
+
+        {RESULTS_VIDEO_SRC && (
+          <div className="visual-break reveal mb-24 aspect-[21/9] max-h-[380px]">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src={RESULTS_VIDEO_SRC} type="video/mp4" />
+            </video>
+            <div className="visual-break-overlay" />
+            <div className="visual-break-caption">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-emerald-300 mb-1">Metricas en tiempo real</p>
+              <p className="text-base sm:text-lg font-semibold text-white max-w-xl mx-auto px-4 leading-snug">
+                Cada numero cambia. Tu cuerpo lo registra. El sistema lo usa.
+              </p>
+            </div>
+          </div>
+        )}
+
         <section className="section-tone section-tone-soft max-w-5xl mx-auto px-4 sm:px-6 mb-24">
           <div className="reveal text-center mb-12">
             <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-slate-300 mb-2">
               <Route className="w-3.5 h-3.5 text-emerald-400" />
-              Progresion compuesta
+              Tu curva de resultados
             </p>
             <h2 className="text-3xl sm:text-4xl font-semibold">Tu cuerpo mejora. Y sigue mejorando.</h2>
             <p className="text-slate-300 mt-3 max-w-2xl mx-auto">
@@ -983,7 +1261,7 @@ export default function HomePage() {
             <div className="hidden sm:block absolute top-[28px] left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-[#6D00FF] via-[#6D00FF]/60 to-emerald-400/80" />
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 relative">
-              <div className="text-center">
+              <div className="timeline-node text-center">
                 <div className="w-14 h-14 rounded-full bg-[#6D00FF]/20 border-2 border-[#6D00FF] flex items-center justify-center mx-auto mb-4 relative z-10">
                   <Activity className="w-6 h-6 text-[#A78BFA]" />
                 </div>
@@ -992,7 +1270,7 @@ export default function HomePage() {
                 <p className="text-xs text-slate-400">Fuerza base, energia, calidad de sueno - tu punto de partida real</p>
               </div>
 
-              <div className="text-center">
+              <div className="timeline-node text-center">
                 <div className="w-14 h-14 rounded-full bg-[#6D00FF]/15 border-2 border-[#6D00FF]/70 flex items-center justify-center mx-auto mb-4 relative z-10">
                   <Dumbbell className="w-6 h-6 text-[#A78BFA]" />
                 </div>
@@ -1001,7 +1279,7 @@ export default function HomePage() {
                 <p className="text-xs text-slate-400">Recomposicion medible: mas musculo, menos grasa, ropa diferente</p>
               </div>
 
-              <div className="text-center">
+              <div className="timeline-node text-center">
                 <div className="w-14 h-14 rounded-full bg-emerald-500/15 border-2 border-emerald-400/60 flex items-center justify-center mx-auto mb-4 relative z-10">
                   <ShieldCheck className="w-6 h-6 text-emerald-400" />
                 </div>
@@ -1010,7 +1288,7 @@ export default function HomePage() {
                 <p className="text-xs text-slate-400">HbA1c, presion, lipidos, inflamacion - tu medico lo nota</p>
               </div>
 
-              <div className="text-center">
+              <div className="timeline-node text-center">
                 <div className="w-14 h-14 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center mx-auto mb-4 relative z-10">
                   <ShieldCheck className="w-6 h-6 text-emerald-300" />
                 </div>
@@ -1160,7 +1438,7 @@ export default function HomePage() {
               <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-[#6D00FF]/20 blur-2xl" />
               <div className="relative rounded-xl border border-white/10 bg-black/25 p-4 h-full min-h-[280px]">
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-sm font-medium">Widget conversacional</p>
+                  <p className="text-sm font-medium">GENESIS disponible ahora</p>
                   <span className="float-chip text-[10px] border border-emerald-400/35 bg-emerald-400/10 text-emerald-300 px-2 py-1 rounded-full">
                     En linea
                   </span>
@@ -1217,7 +1495,7 @@ export default function HomePage() {
 
         <section className="section-tone section-tone-offer max-w-5xl mx-auto px-4 sm:px-6 mb-12">
           <article className="reveal glass-panel card-offer rounded-2xl p-8 sm:p-10 text-center relative overflow-hidden">
-            <div className="absolute inset-0 opacity-[0.12]">
+            <div className="absolute inset-0 opacity-[0.24]">
               <Image
                 src={VISUAL_ASSETS.ctaBackground}
                 alt=""

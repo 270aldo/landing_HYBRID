@@ -32,3 +32,8 @@ pnpm-debug.log*
 
 # TypeScript cache
 **/*.tsbuildinfo
+
+# Video assets (deploy via Vercel dashboard or CDN)
+**/public/videos/*.mp4
+**/public/videos/*.mov
+**/public/videos/*.webm
