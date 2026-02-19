@@ -1,0 +1,39 @@
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Local Codex/session artifacts
+.agent/
+.skills/
+stitch-skills/
+
+# Dependencies and build outputs
+**/node_modules/
+**/.next/
+**/out/
+**/dist/
+**/build/
+**/coverage/
+**/.turbo/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files (keep examples)
+**/.env*
+!**/.env.example
+
+# Vercel
+**/.vercel/
+
+# TypeScript cache
+**/*.tsbuildinfo
+
+# Video assets (deploy via Vercel dashboard or CDN)
+**/public/videos/*.mp4
+**/public/videos/*.mov
+**/public/videos/*.webm
