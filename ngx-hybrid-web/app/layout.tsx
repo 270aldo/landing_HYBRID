@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { JetBrains_Mono, Sora } from "next/font/google";
 import "./globals.css";
 
 // ─── Site URL ────────────────────────────────────────────────────────────────
@@ -6,6 +7,20 @@ import "./globals.css";
 // Falls back to the production domain.
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://hybrid.ngxgenesis.com";
+
+const sora = Sora({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sora",
+  display: "swap",
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
 
 // ─── Viewport ────────────────────────────────────────────────────────────────
 export const viewport: Viewport = {
@@ -105,24 +120,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth">
-      <head>
-        {/*
-         * Google Fonts — loaded via <link> (not CSS @import) to avoid
-         * render-blocking. preconnect hints warm up the DNS + TLS handshake
-         * before the stylesheet request fires.
-         */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="antialiased">{children}</body>
+      <body className={`${sora.variable} ${jetBrainsMono.variable} antialiased`}>{children}</body>
     </html>
   );
 }

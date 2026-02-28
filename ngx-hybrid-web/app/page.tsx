@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Activity,
   AlertTriangle,
@@ -26,6 +27,17 @@ interface FunnelPayload {
   href?: string;
 }
 
+interface ActionUrl {
+  href: string;
+  isExternal: boolean;
+  isAvailable: boolean;
+}
+
+interface FooterLink {
+  label: string;
+  href?: string;
+}
+
 declare global {
   interface Window {
     dataLayer?: Array<Record<string, unknown>>;
@@ -36,9 +48,23 @@ declare global {
   }
 }
 
-const APPLY_URL = process.env.NEXT_PUBLIC_APPLY_URL ?? "#";
-const VSL_URL = process.env.NEXT_PUBLIC_VSL_URL ?? "#";
-const SCHEDULE_URL = process.env.NEXT_PUBLIC_SCHEDULE_URL ?? "#";
+const normalizeActionUrl = (value?: string): ActionUrl => {
+  const href = (value ?? "").trim();
+
+  if (!href || href === "#" || /^javascript:/i.test(href)) {
+    return { href: "", isExternal: false, isAvailable: false };
+  }
+
+  return {
+    href,
+    isExternal: /^https?:\/\//i.test(href),
+    isAvailable: true,
+  };
+};
+
+const APPLY_ACTION_URL = normalizeActionUrl(process.env.NEXT_PUBLIC_APPLY_URL);
+const VSL_ACTION_URL = normalizeActionUrl(process.env.NEXT_PUBLIC_VSL_URL);
+const SCHEDULE_ACTION_URL = normalizeActionUrl(process.env.NEXT_PUBLIC_SCHEDULE_URL);
 const N8N_WEBHOOK_FALLBACK = process.env.NEXT_PUBLIC_N8N_WEBHOOK_FUNNEL ?? "";
 const HERO_VIDEO_SRC = process.env.NEXT_PUBLIC_HERO_VIDEO_SRC ?? "";
 const VSL_TEASER_VIDEO_SRC = process.env.NEXT_PUBLIC_VSL_TEASER_VIDEO_SRC ?? "";
@@ -101,6 +127,25 @@ const faqList = [
   },
 ];
 
+const footerBlocks: Array<{ title: string; links: FooterLink[] }> = [
+  {
+    title: "Producto",
+    links: [
+      { label: "HYBRID", href: "#como-funciona" },
+      { label: "ASCEND" },
+      { label: "GENESIS", href: "#agente" },
+    ],
+  },
+  {
+    title: "Compania",
+    links: [{ label: "Sobre NGX" }, { label: "Manifiesto" }, { label: "Contacto", href: "#agente" }],
+  },
+  {
+    title: "Legal",
+    links: [{ label: "Privacidad" }, { label: "Terminos" }, { label: "Garantia", href: "#garantia" }],
+  },
+];
+
 function postToWebhook(event: string, payload: FunnelPayload) {
   if (!N8N_WEBHOOK_FALLBACK) return;
 
@@ -128,6 +173,46 @@ function postToWebhook(event: string, payload: FunnelPayload) {
   } catch {
     // Intencionalmente silencioso para no bloquear UX.
   }
+}
+
+function ActionLink({
+  actionUrl,
+  className,
+  children,
+  onClick,
+  unavailableLabel,
+}: {
+  actionUrl: ActionUrl;
+  className: string;
+  children: ReactNode;
+  onClick?: () => void;
+  unavailableLabel?: string;
+}) {
+  if (!actionUrl.isAvailable) {
+    return (
+      <button
+        type="button"
+        className={`${className} opacity-55 cursor-not-allowed`}
+        disabled
+        aria-disabled="true"
+        title={unavailableLabel ?? "URL pendiente de configurar en variables de entorno"}
+      >
+        {children}
+      </button>
+    );
+  }
+
+  return (
+    <a
+      href={actionUrl.href}
+      className={className}
+      onClick={onClick}
+      target={actionUrl.isExternal ? "_blank" : undefined}
+      rel={actionUrl.isExternal ? "noopener noreferrer" : undefined}
+    >
+      {children}
+    </a>
+  );
 }
 
 export default function HomePage() {
@@ -262,12 +347,12 @@ export default function HomePage() {
       <header className="fixed z-50 pt-3 sm:pt-5 top-0 right-0 left-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <nav className="glass-panel rounded-2xl sm:rounded-full px-3.5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-3">
-            <a href="#" className="flex items-center gap-3" onClick={() => trackEvent("brand_logo_click", { section: "header" })}>
+            <Link href="/" className="flex items-center gap-3" onClick={() => trackEvent("brand_logo_click", { section: "header" })}>
               <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#6D00FF] to-[#A78BFA] flex items-center justify-center">
                 <Hexagon className="w-4 h-4 text-white" />
               </span>
               <span className="text-sm font-semibold tracking-wide font-space">NGX HYBRID</span>
-            </a>
+            </Link>
 
             <button
               type="button"
@@ -370,15 +455,13 @@ export default function HomePage() {
                 >
                   DESCUBRE SI HYBRID ES PARA TI
                 </button>
-                <a
-                  href={APPLY_URL}
+                <ActionLink
+                  actionUrl={APPLY_ACTION_URL}
                   className="btn-ghost px-8 py-4 rounded-full text-white font-semibold tracking-wide flex items-center justify-center gap-2"
-                  onClick={() => trackEvent("cta_apply_hero", { section: "hero", href: APPLY_URL })}
-                  target={APPLY_URL.startsWith("http") ? "_blank" : undefined}
-                  rel={APPLY_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+                  onClick={() => trackEvent("cta_apply_hero", { section: "hero", href: APPLY_ACTION_URL.href })}
                 >
                   Ya estoy listo - Aplicar directo
-                </a>
+                </ActionLink>
               </div>
 
               <div className="reveal delay-3 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto lg:mx-0 text-left">
@@ -450,16 +533,14 @@ export default function HomePage() {
                   <p className="text-lg sm:text-xl text-white font-semibold leading-tight mb-3">
                     Entrenamiento inteligente para fuerza, composicion y longevidad.
                   </p>
-                  <a
-                    href={VSL_URL}
+                  <ActionLink
+                    actionUrl={VSL_ACTION_URL}
                     className="inline-flex items-center gap-2 btn-metallic rounded-full px-4 py-2 text-xs font-semibold"
-                    onClick={() => trackEvent("vsl_play", { section: "hero_media", href: VSL_URL })}
-                    target={VSL_URL.startsWith("http") ? "_blank" : undefined}
-                    rel={VSL_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+                    onClick={() => trackEvent("vsl_play", { section: "hero_media", href: VSL_ACTION_URL.href })}
                   >
                     <Play className="w-3.5 h-3.5" />
                     Ver como funciona HYBRID
-                  </a>
+                  </ActionLink>
                 </div>
               </div>
             </article>
@@ -751,16 +832,14 @@ export default function HomePage() {
                 <p className="absolute left-4 right-4 bottom-4 text-sm text-slate-100 text-left">
                   Video: como funciona HYBRID en 12 minutos
                 </p>
-                <a
-                  href={VSL_URL}
+                <ActionLink
+                  actionUrl={VSL_ACTION_URL}
                   className="absolute btn-metallic rounded-full px-6 py-3 text-sm font-semibold flex items-center gap-2"
-                  onClick={() => trackEvent("vsl_play", { section: "video", href: VSL_URL })}
-                  target={VSL_URL.startsWith("http") ? "_blank" : undefined}
-                  rel={VSL_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+                  onClick={() => trackEvent("vsl_play", { section: "video", href: VSL_ACTION_URL.href })}
                 >
                   <Play className="w-4 h-4" />
                   Ver el video completo (12 min)
-                </a>
+                </ActionLink>
               </div>
               <div className="mt-4 flex items-center justify-between gap-4">
                 <p className="text-xs text-slate-200">
@@ -1422,15 +1501,13 @@ export default function HomePage() {
                 >
                   Iniciar conversacion con GENESIS
                 </button>
-                <a
-                  href={SCHEDULE_URL}
+                <ActionLink
+                  actionUrl={SCHEDULE_ACTION_URL}
                   className="btn-ghost rounded-full px-6 py-3 text-sm font-semibold"
-                  onClick={() => trackEvent("cta_schedule_agente", { section: "agente", href: SCHEDULE_URL })}
-                  target={SCHEDULE_URL.startsWith("http") ? "_blank" : undefined}
-                  rel={SCHEDULE_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+                  onClick={() => trackEvent("cta_schedule_agente", { section: "agente", href: SCHEDULE_ACTION_URL.href })}
                 >
                   Agendar llamada
-                </a>
+                </ActionLink>
               </div>
             </article>
 
@@ -1470,10 +1547,15 @@ export default function HomePage() {
           <div className="reveal glass-panel card-mechanism rounded-2xl px-5 sm:px-7 py-2">
             {faqList.map((faq, idx) => {
               const isOpen = openFaq === idx;
+              const triggerId = `faq-trigger-${idx}`;
+              const answerId = `faq-answer-${idx}`;
               return (
                 <div key={faq.q} className={`faq-item py-5 ${isOpen ? "active" : ""}`}>
                   <button
                     type="button"
+                    id={triggerId}
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
                     className="faq-trigger w-full flex items-center justify-between gap-3 text-left"
                     onClick={() => {
                       const next = isOpen ? null : idx;
@@ -1484,7 +1566,13 @@ export default function HomePage() {
                     <span className="text-base sm:text-lg">{faq.q}</span>
                     <Plus className="faq-icon w-5 h-5 text-slate-300" />
                   </button>
-                  <div className="faq-answer">
+                  <div
+                    id={answerId}
+                    className="faq-answer"
+                    role="region"
+                    aria-labelledby={triggerId}
+                    hidden={!isOpen}
+                  >
                     <p className="pt-3 text-sm text-slate-200">{faq.a}</p>
                   </div>
                 </div>
@@ -1526,15 +1614,13 @@ export default function HomePage() {
               >
                 HABLAR CON GENESIS - EMPIEZA AQUI
               </button>
-              <a
-                href={APPLY_URL}
+              <ActionLink
+                actionUrl={APPLY_ACTION_URL}
                 className="btn-ghost rounded-full px-8 py-4 text-sm sm:text-base font-semibold"
-                onClick={() => trackEvent("cta_apply_final", { section: "cta_final", href: APPLY_URL })}
-                target={APPLY_URL.startsWith("http") ? "_blank" : undefined}
-                rel={APPLY_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+                onClick={() => trackEvent("cta_apply_final", { section: "cta_final", href: APPLY_ACTION_URL.href })}
               >
                 Aplicar directamente
-              </a>
+              </ActionLink>
             </div>
             </div>
           </article>
@@ -1555,28 +1641,23 @@ export default function HomePage() {
             </p>
           </div>
 
-          {[
-            {
-              title: "Producto",
-              links: ["HYBRID", "ASCEND", "GENESIS"],
-            },
-            {
-              title: "Compania",
-              links: ["Sobre NGX", "Manifiesto", "Contacto"],
-            },
-            {
-              title: "Legal",
-              links: ["Privacidad", "Terminos", "Garantia"],
-            },
-          ].map((block) => (
+          {footerBlocks.map((block) => (
             <div key={block.title}>
               <p className="font-space text-sm font-semibold mb-3">{block.title}</p>
               <ul className="space-y-2 text-sm text-slate-400">
                 {block.links.map((item) => (
-                  <li key={item}>
-                    <a href="#" className="hover:text-white transition" onClick={() => trackEvent("footer_click", { section: "footer", cta: item })}>
-                      {item}
-                    </a>
+                  <li key={item.label}>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        className="hover:text-white transition"
+                        onClick={() => trackEvent("footer_click", { section: "footer", cta: item.label, href: item.href })}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <span className="text-slate-500 cursor-not-allowed">{item.label}</span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -1641,20 +1722,20 @@ export default function HomePage() {
               Conectando con GENESIS...
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
-              <a
-                href={APPLY_URL}
+              <ActionLink
+                actionUrl={APPLY_ACTION_URL}
                 className="btn-metallic rounded-full px-5 py-2.5 text-sm font-semibold"
-                onClick={() => trackEvent("agent_apply_modal", { section: "agent_modal", href: APPLY_URL })}
+                onClick={() => trackEvent("agent_apply_modal", { section: "agent_modal", href: APPLY_ACTION_URL.href })}
               >
                 Aplicar directamente
-              </a>
-              <a
-                href={SCHEDULE_URL}
+              </ActionLink>
+              <ActionLink
+                actionUrl={SCHEDULE_ACTION_URL}
                 className="btn-ghost rounded-full px-5 py-2.5 text-sm font-semibold"
-                onClick={() => trackEvent("cta_schedule_agent_modal", { section: "agent_modal", href: SCHEDULE_URL })}
+                onClick={() => trackEvent("cta_schedule_agent_modal", { section: "agent_modal", href: SCHEDULE_ACTION_URL.href })}
               >
                 Prefiero hablar con una persona
-              </a>
+              </ActionLink>
             </div>
           </div>
         </div>

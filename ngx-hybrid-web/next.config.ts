@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const appRoot = __dirname;
+
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -19,8 +21,8 @@ const securityHeaders = [
       // Fonts + Google Fonts
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      // Images: self + Unsplash + placehold.co (matching remotePatterns)
-      "img-src 'self' data: blob: https://images.unsplash.com https://placehold.co",
+      // Images: self + Unsplash + placehold.co + Unicorn Studio runtime assets
+      "img-src 'self' data: blob: https://images.unsplash.com https://placehold.co https://assets.unicorn.studio",
       // Embedded video/media from same origin
       "media-src 'self'",
       // ElevenLabs widget iframe + UnicornStudio
@@ -37,6 +39,12 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: appRoot,
+  },
+
+  outputFileTracingRoot: appRoot,
+
   images: {
     remotePatterns: [
       {
